@@ -1,10 +1,14 @@
+import { AuthProvider } from "./context/AuthContext"
+import AppRouter from "./routes/AppRouter"
 
 
 function App() {
 
   return (
     <>
-      <h1 className="bg-red-400">Hola mundo</h1>
+      <AuthProvider>
+        <AppRouter />
+      </AuthProvider>
     </>
   )
 }
