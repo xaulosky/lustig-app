@@ -1,7 +1,8 @@
 
 const Escritorio = () => {
+
     return (
-        <div>Escritorio</div>
+        <h1>Escritorio</h1>
     )
 }
 

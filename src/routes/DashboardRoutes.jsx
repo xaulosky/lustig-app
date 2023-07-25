@@ -3,6 +3,7 @@ import Home from '../pages/Home'
 import Layout from '../componets/dashboard/Layout'
 import Escritorio from '../pages/escritorio/Escritorio'
 import Clientes from '../pages/Clientes'
+import Eventos from '../pages/Eventos'
 
 
 const DashboardRoutes = () => {
@@ -12,6 +13,8 @@ const DashboardRoutes = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/escritorio" element={<Escritorio />} />
                 <Route path="/clientes" element={<Clientes />} />
+                <Route path="/eventos" element={<Eventos />} />
+
 
                 <Route path="*" element={<h1>Pagina no encontrada</h1>} />
             </Route>
