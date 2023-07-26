@@ -13,3 +13,7 @@
   height: 100vh;
   overflow: hidden;
 }
+
+.swal2-container {
+  z-index: X;
+}

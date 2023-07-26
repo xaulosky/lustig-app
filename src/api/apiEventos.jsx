@@ -1,12 +1,21 @@
-import instance from './config'
+import instance from "./config";
 export default {
-    getEventos: () => {
-        return instance.get('/eventos')
-    },
-    getEvento: (id) => {
-        return instance.get(`/eventos/buscarId/`, { params: { id: id } })
-    },
-    createEvento: (evento) => {
-        return instance.post('/eventos', evento)
-    }
-}
+  getEventos: () => {
+    return instance.get("/eventos");
+  },
+  getEvento: (id) => {
+    return instance.get(`/eventos/buscarId/`, { params: { id: id } });
+  },
+  createEvento: (evento) => {
+    return instance.post("/eventos", evento);
+  },
+  updateEvento: (evento) => {
+    return instance.put("eventos", evento);
+  },
+  deleteEvento: (id) => {
+    return instance.delete("eventos", { data: { id } });
+  },
+  cambiarEstado: (id, idEstado) => {
+    return instance.put("eventos/estado", { id, id_estado_evento: idEstado });
+  },
+};

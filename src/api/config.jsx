@@ -3,7 +3,15 @@ import axios from "axios"
 let source = axios.CancelToken.source()
 
 const config = {
-    baseURL: import.meta.env.VITE_API_URL
+    baseURL: import.meta.env.VITE_API_URL,
+    withCredentials: false,
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    cancelToken: source.token
+    
+   /*  headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+    } */
 }
 
 const instance = axios.create(config)

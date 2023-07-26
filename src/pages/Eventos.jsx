@@ -63,7 +63,6 @@ const Eventos = () => {
             setCargando(false)
         }
         )
-
     }, [])
 
     useEffect(() => {
@@ -74,7 +73,7 @@ const Eventos = () => {
         <Box  >
             <Flex justifyContent="space-between" alignItems="center">
                 <Heading>Eventos</Heading>
-                <AgregarEvento />
+                <AgregarEvento actualizar={getData} />
 
             </Flex>
             <br />

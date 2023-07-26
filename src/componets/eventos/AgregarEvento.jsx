@@ -1,27 +1,44 @@
 import { Button, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react"
 import apiEventos from "../../api/apiEventos"
-import { useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { GrFormAdd } from 'react-icons/gr'
-import { Form, useForm } from "react-hook-form"
+import { Form, get, useForm } from "react-hook-form"
 import { Textarea } from '@chakra-ui/react'
+import useClientes from "../../hooks/useClientes"
+import { notificaciones } from "../../helpers/Notificaciones"
 
 
-const AgregarEvento = () => {
+const AgregarEvento = ({ actualizar }) => {
     const [isOpen, setIsOpen] = useState(false)
     const onCloseEvento = () => setIsOpen(false)
     const onClickEvento = () => setIsOpen(true)
+
+    const clientes = useClientes() /* nombre, apellido, telefono, direccion */
 
 
     const {
         register,
         handleSubmit,
         watch,
-        formState: { errors },
+        reset,
+        formState: { errors }
     } = useForm()
 
     const crearEvento = (data) => {
         console.log(data)
+        apiEventos.createEvento(data).then((res) => {
+            console.log(res)
+            onCloseEvento()
+            reset()
+            notificaciones.success("Evento creado exitosamente")
+            actualizar()
+        }
+        ).catch((err) => {
+            console.log(err)
+            notificaciones.error("Error al crear evento")
+        })
     }
+
 
     return (
         <>
@@ -36,6 +53,42 @@ const AgregarEvento = () => {
                     <ModalBody>
                         <form id="formulario_evento" onSubmit={handleSubmit(crearEvento)}>
                             <div className="grid gap-4 mb-4 sm:grid-cols-2">
+                                <div className="col-span-2">
+                                    <label
+                                        htmlFor="cliente"
+                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                    >
+                                        Selecciona Cliente
+                                    </label>
+                                    <div className="flex">
+                                        <input
+                                            list="clientes"
+                                            type="text"
+                                            name="id_cliente"
+                                            id="id_cliente"
+                                            className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-l-lg   focus:ring-primary-600 focus:border-primary-600 block w-[90%] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="Buscar Cliente"
+                                            {
+                                            ...register("id_cliente", {
+                                                required: true,
+                                            })
+                                            }
+
+                                        />
+                                        <datalist id="clientes">
+                                            {
+                                                clientes.map((cliente) => {
+                                                    return (
+                                                        <option key={cliente.id} value={cliente.id}>{cliente.nombre} {cliente.apellido}</option>
+                                                    )
+                                                })
+                                            }
+                                        </datalist>
+                                        <button className="bg-blue-500 p-2 radius-2 w-[10%] text-white flex justify-center items-center">
+                                            +
+                                        </button>
+                                    </div>
+                                </div>
                                 <div>
                                     <label
                                         htmlFor="nombre"
@@ -56,6 +109,7 @@ const AgregarEvento = () => {
                                         }
                                     />
                                 </div>
+
                                 <div>
                                     <label
                                         htmlFor="direccion"
@@ -95,6 +149,10 @@ const AgregarEvento = () => {
                                         })
                                         }
                                     />
+
+
+
+
                                 </div>
                                 <div>
                                     <label
@@ -119,6 +177,26 @@ const AgregarEvento = () => {
                                         <option value="4">Empresarial</option>
                                         <option value="5">Otro</option>
                                     </select>
+                                </div>
+                                <div>
+                                    <label
+                                        htmlFor="fecha"
+                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                    >
+                                        Fecha Evento
+                                    </label>
+                                    <input
+                                        type="datetime-local"
+                                        name="fecha"
+                                        id="fecha"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                        placeholder="Fecha del evento"
+                                        {
+                                        ...register("fecha", {
+                                            required: true,
+                                        })
+                                        }
+                                    />
                                 </div>
                                 <div className="sm:col-span-2">
                                     <label
