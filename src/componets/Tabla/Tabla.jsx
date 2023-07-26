@@ -1,8 +1,10 @@
 import { Box, Progress, Spinner } from "@chakra-ui/react"
 import DataTable from "react-data-table-component"
-import PropTypes from 'prop-types'
+import { BiBlock } from "react-icons/bi"
 
 const Tabla = ({ data, columnas, noData }) => {
+
+
 
     const paginationComponentOptions = {
         rowsPerPageText: 'Filas por página',
@@ -42,13 +44,3 @@ const Tabla = ({ data, columnas, noData }) => {
 }
 
 export default Tabla
-
-Tabla.defaultProps = {
-    noData: null
-}
-
-Tabla.propTypes = {
-    data: PropTypes.array.isRequired,
-    columnas: PropTypes.array.isRequired,
-    noData: PropTypes.node
-}

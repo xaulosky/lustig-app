@@ -1,5 +1,6 @@
 import instance from './config'
 export default {
+    // INVENTARIO BODEGA
     getInventario: () => {
         return instance.get('/inventario')
     },

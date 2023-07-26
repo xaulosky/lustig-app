@@ -1,16 +1,6 @@
 import instance from "./config";
 
 export default {
-
-    // Estados de mesas: [
-    //     { id: 1, nombre: "Vacía" },
-    //     { id: 2, nombre: "Montada" },
-    //     { id: 3, nombre: "Plato de Entrada" },
-    //     { id: 4, nombre: "Plato Principal" },
-    //     { id: 5, nombre: "Postre" },
-    //     { id: 6, nombre: "Lista" },
-    // ]
-
     // MESAS
     getMesas: (idEvento) => {
         return instance.get('/eventos/mesas', {

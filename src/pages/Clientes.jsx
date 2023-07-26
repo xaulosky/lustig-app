@@ -255,7 +255,7 @@ const Clientes = () => {
                                         scope="row"
                                         className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
-                                        Apple iMac 27"
+                                        Apple iMac 27&quot;
                                     </th>
                                     <td className="px-4 py-3">PC</td>
                                     <td className="px-4 py-3">Apple</td>
@@ -319,7 +319,7 @@ const Clientes = () => {
                                         scope="row"
                                         className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                     >
-                                        Apple iMac 20"
+                                        Apple iMac 20&quot;
                                     </th>
                                     <td className="px-4 py-3">PC</td>
                                     <td className="px-4 py-3">Apple</td>
