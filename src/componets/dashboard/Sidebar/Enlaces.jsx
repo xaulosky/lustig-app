@@ -1,5 +1,6 @@
 
 import { AiFillHome } from 'react-icons/ai'
+import { BiClipboard, BiSolidUser } from 'react-icons/bi'
 
 
 
@@ -16,14 +17,26 @@ const Enlaces = () => {
             id: 2,
             ruta: '/clientes',
             nombre: 'Clientes',
-            icono: <AiFillHome />
+            icono: <BiSolidUser />
         },
         {
             id: 3,
             ruta: '/eventos',
             nombre: 'Eventos',
             icono: <AiFillHome />
-        }
+        },
+        {
+            id: 4,
+            ruta: '/personal',
+            nombre: 'Personal',
+            icono: <AiFillHome />
+        },
+        {
+            id: 5,
+            ruta: '/inventario',
+            nombre: 'Inventario',
+            icono: <BiClipboard />
+        },
     ]
 
 
