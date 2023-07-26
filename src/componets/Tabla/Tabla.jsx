@@ -2,7 +2,7 @@ import { Box, Progress, Spinner } from "@chakra-ui/react"
 import DataTable from "react-data-table-component"
 import { BiBlock } from "react-icons/bi"
 
-const Tabla = ({ data, columnas, noData }) => {
+const Tabla = ({ data, columnas, noData, cargando }) => {
 
 
 
@@ -37,6 +37,7 @@ const Tabla = ({ data, columnas, noData }) => {
                 </Box >
             }
             paginationComponentOptions={paginationComponentOptions}
+            progressPending={cargando}
         />
 
 

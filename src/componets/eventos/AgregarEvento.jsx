@@ -1,9 +1,8 @@
-import { Button, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react"
+import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react"
 import apiEventos from "../../api/apiEventos"
-import { useCallback, useEffect, useState } from "react"
+import { useState } from "react"
 import { GrFormAdd } from 'react-icons/gr'
-import { Form, get, useForm } from "react-hook-form"
-import { Textarea } from '@chakra-ui/react'
+import { useForm } from "react-hook-form"
 import useClientes from "../../hooks/useClientes"
 import { notificaciones } from "../../helpers/Notificaciones"
 
@@ -14,7 +13,7 @@ const AgregarEvento = ({ actualizar }) => {
     const onClickEvento = () => setIsOpen(true)
 
     const clientes = useClientes() /* nombre, apellido, telefono, direccion */
-
+    const [enviando, setEnviando] = useState(false)
 
     const {
         register,
@@ -25,7 +24,7 @@ const AgregarEvento = ({ actualizar }) => {
     } = useForm()
 
     const crearEvento = (data) => {
-        console.log(data)
+        setEnviando(true)
         apiEventos.createEvento(data).then((res) => {
             console.log(res)
             onCloseEvento()
@@ -36,6 +35,8 @@ const AgregarEvento = ({ actualizar }) => {
         ).catch((err) => {
             console.log(err)
             notificaciones.error("Error al crear evento")
+        }).finally(() => {
+            setEnviando(false)
         })
     }
 
@@ -224,7 +225,7 @@ const AgregarEvento = ({ actualizar }) => {
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme='blue' mr={3} type="submit" form="formulario_evento">
+                        <Button colorScheme='blue' mr={3} type="submit" form="formulario_evento" isLoading={enviando}>
                             Crear Evento
                         </Button>
                         <Button variant='ghost' onClick={onCloseEvento}>Cancelar</Button>
