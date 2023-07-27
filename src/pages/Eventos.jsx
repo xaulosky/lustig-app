@@ -4,6 +4,9 @@ import { Box, Flex, HStack, Heading } from "@chakra-ui/react"
 import apiEventos from "../api/apiEventos"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import AgregarEvento from "../componets/eventos/AgregarEvento"
+import EditarEvento from "../componets/eventos/EditarEvento"
+import { GrView } from "react-icons/gr"
+import { AiFillDelete } from "react-icons/ai"
 const Eventos = () => {
 
     const [data, setData] = useState([])
@@ -29,11 +32,13 @@ const Eventos = () => {
             },
             {
                 name: "Fecha",
-                selector: "fecha"
-            },
-            {
-                name: "Estado",
-                selector: "estado"
+                selector: "fecha",
+                wrap: true,
+                cell: (row) => {
+                    return (
+                        <span>{new Date(row.fecha).toLocaleDateString()}</span>
+                    )
+                }
             },
             {
                 name: "Presupuesto",
@@ -44,13 +49,29 @@ const Eventos = () => {
                 selector: "id_cliente"
             },
             {
-                name: "Tipo Evento",
-                selector: "id_tipo_evento"
+                name: "Tipo",
+                selector: "id_tipo_evento",
+                compact: true
             },
             {
-                name: "Estado Evento",
-                selector: "id_estado_evento"
+                name: "Estado",
+                selector: "id_estado_evento",
+                compact: true
+            },
+            {
+                name: "Acciones",
+                cell: (row) => {
+                    return (
+                        <HStack>
+                            <EditarEvento />
+                            <GrView />
+                            <AiFillDelete />
+                        </HStack>
+                    )
+                },
+                compact: true
             }
+
         ]
     }, [])
 
@@ -59,6 +80,7 @@ const Eventos = () => {
         setCargando(true)
         apiEventos.getEventos().then((res) => {
             setData(res.data)
+            console.log(res.data)
         }).finally(() => {
             setCargando(false)
         }
