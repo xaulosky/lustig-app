@@ -1,10 +1,8 @@
 import { Box, Progress, Spinner } from "@chakra-ui/react"
 import DataTable from "react-data-table-component"
-import { BiBlock } from "react-icons/bi"
+import PropTypes from 'prop-types'
 
-const Tabla = ({ data, columnas, noData, cargando }) => {
-
-
+const Tabla = ({ data, columnas, noData, cargando, click,estilos }) => {
 
     const paginationComponentOptions = {
         rowsPerPageText: 'Filas por página',
@@ -19,7 +17,7 @@ const Tabla = ({ data, columnas, noData, cargando }) => {
             data={data}
             progressComponent={<Progress size='xs' isIndeterminate />}
             direction="auto"
-
+            onRowClicked={click}
             select
             fixedHeader
             fixedHeaderScrollHeight="600px"
@@ -38,6 +36,21 @@ const Tabla = ({ data, columnas, noData, cargando }) => {
             }
             paginationComponentOptions={paginationComponentOptions}
             progressPending={cargando}
+            customStyles={estilos ? estilos : {
+                headCells: {
+                  style: {
+                    backgroundColor: '#161616',
+                    color: 'white',
+                    fontSize: '.8rem',
+                  },
+                },
+                cells: {
+                  style: {
+                    color: 'tranparent',
+                    cursor: 'auto'
+                  },
+                },
+              }}
         />
 
 
@@ -45,3 +58,12 @@ const Tabla = ({ data, columnas, noData, cargando }) => {
 }
 
 export default Tabla
+
+Tabla.propTypes = {
+    data: PropTypes.array.isRequired,
+    columnas: PropTypes.array.isRequired,
+    noData: PropTypes.element,
+    cargando: PropTypes.bool,
+    click: PropTypes.func,
+    estilos: PropTypes.object
+}

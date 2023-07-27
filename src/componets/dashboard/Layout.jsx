@@ -1,8 +1,6 @@
+/* eslint-disable react/no-unescaped-entities */
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar/Sidebar';
-import Header from './Header/Header';
-
-
 
 const Layout = () => {
     return (
