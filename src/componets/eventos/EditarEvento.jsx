@@ -6,7 +6,7 @@ import { BiSolidEdit } from "react-icons/bi"
 const EditarEvento = ({ row }) => {
 
     const [isOpen, setIsOpen] = useState(false)
-    const onCloseEditarEvento = () => setIsOpen(false)
+    const onCloseEditarEvento = () => { setIsOpen(false) }
     const onClickEditarEvento = () => setIsOpen(true)
 
     const [enviando, setEnviando] = useState(false)
@@ -25,13 +25,11 @@ const EditarEvento = ({ row }) => {
 
     return (
         <>
-            <Button onClick={() => onClickEditarEvento()} className="bg-blue-900 ">
-                <BiSolidEdit />
-            </Button>
+            <BiSolidEdit onClick={() => onClickEditarEvento()} className="cursor-pointer text-lg" />
             <Modal isOpen={isOpen}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Agregar Evento </ModalHeader>
+                    <ModalHeader>Editar Evento </ModalHeader>
                     <ModalCloseButton onClick={onCloseEditarEvento} />
                     <ModalBody>
                         <form id="formulario_evento" onSubmit={handleSubmit(editarEvento)}>
@@ -126,7 +124,7 @@ const EditarEvento = ({ row }) => {
                                         <option value="5">Otro</option>
                                     </select>
                                 </div>
-                                <div>
+                                <div className="scope-2">
                                     <label
                                         htmlFor="fecha"
                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"

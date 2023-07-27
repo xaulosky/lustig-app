@@ -1,12 +1,14 @@
 import Tabla from "../componets/Tabla/Tabla"
 import { BiSolidEdit } from "react-icons/bi"
-import { Box, Flex, HStack, Heading } from "@chakra-ui/react"
+import { Box, Button, Flex, HStack, Heading } from "@chakra-ui/react"
 import apiEventos from "../api/apiEventos"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import AgregarEvento from "../componets/eventos/AgregarEvento"
 import EditarEvento from "../componets/eventos/EditarEvento"
 import { GrView } from "react-icons/gr"
 import { AiFillDelete } from "react-icons/ai"
+import { Link } from "react-router-dom"
+import EliminarEvento from "../componets/eventos/EliminarEvento"
 const Eventos = () => {
 
     const [data, setData] = useState([])
@@ -64,8 +66,10 @@ const Eventos = () => {
                     return (
                         <HStack>
                             <EditarEvento />
-                            <GrView />
-                            <AiFillDelete />
+                            <Link to={`/evento/${row.id}`} >
+                                <GrView className="cursor-pointer text-lg" />
+                            </Link>
+                            <EliminarEvento />
                         </HStack>
                     )
                 },
