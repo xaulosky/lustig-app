@@ -9,6 +9,8 @@ export default {
     },
     createObjetoInventario: (objeto) => {
         // 'nombre' => 'required|string|max:255',
+        // 'descripcion' => 'nullable|string|max:255',
+        // 'tipo' => 'nullable|string|max:255',
         // 'cantidad' => 'nullable|numeric',
         // 'unidad_medida' => 'nullable|string|max:255',
         return instance.post('/inventario', objeto)
@@ -16,6 +18,8 @@ export default {
     updateObjetoInventario: (objeto) => {
         // 'id' => 'required|integer|exists:inventario,id',
         // 'nombre' => 'required|string|max:255',
+        // 'descripcion' => 'nullable|string|max:255',
+        // 'tipo' => 'nullable|string|max:255',
         // 'cantidad' => 'nullable|numeric',
         // 'unidad_medida' => 'nullable|string|max:255',
         return instance.put('/inventario', objeto)

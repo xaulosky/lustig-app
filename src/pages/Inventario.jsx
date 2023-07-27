@@ -1,7 +1,8 @@
 import Tabla from "../componets/Tabla/Tabla"
-import { Box, Button, Flex, Heading } from "@chakra-ui/react"
+import { Box, Flex, Heading } from "@chakra-ui/react"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import apiInventario from "../api/apiInventario"
+import EditarObjetoInventario from "../componets/inventario/acciones/EditarObjeto"
 const Inventario = () => {
 
   const [data, setData] = useState([])
@@ -19,15 +20,17 @@ const Inventario = () => {
       {
         name: "Cantidad",
         selector: row => (
-          <Flex alignItems="center">
-            <Button>
-              <span>{row.cantidad}</span>
-              <span className="ml-2 text-gray-500">{row.unidad_medida || "Unidades"}</span>
-            </Button>
-          </Flex>
+          <EditarObjetoInventario objetoInventario={row} soloCantidad={true} />
         )
       },
-
+      {
+        name: "Acciones",
+        selector: row => (
+          <Flex alignItems="center">
+            <EditarObjetoInventario objetoInventario={row} />
+          </Flex>
+        )
+      }
     ]
   }, [])
 
