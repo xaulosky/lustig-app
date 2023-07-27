@@ -7,6 +7,7 @@ import { GrFormAdd } from 'react-icons/gr'
 import { useForm } from "react-hook-form"
 import useClientes from "../../hooks/useClientes"
 import { notificaciones } from "../../helpers/Notificaciones"
+import AgregarCliente from "../clientes/AgregarCliente"
 
 
 const AgregarEvento = ({ actualizar }) => {
@@ -51,8 +52,8 @@ const AgregarEvento = ({ actualizar }) => {
             <Modal isOpen={isOpen}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Agregar </ModalHeader>
-                    <ModalCloseButton />
+                    <ModalHeader>Agregar Evento </ModalHeader>
+                    <ModalCloseButton onClick={onCloseEvento} />
                     <ModalBody>
                         <form id="formulario_evento" onSubmit={handleSubmit(crearEvento)}>
                             <div className="grid gap-4 mb-4 sm:grid-cols-2">
@@ -61,7 +62,7 @@ const AgregarEvento = ({ actualizar }) => {
                                         htmlFor="cliente"
                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                     >
-                                        Selecciona Cliente
+                                        Selecciona o agrega un cliente
                                     </label>
                                     <div className="flex">
                                         <input
@@ -87,9 +88,7 @@ const AgregarEvento = ({ actualizar }) => {
                                                 })
                                             }
                                         </datalist>
-                                        <button className="bg-blue-500 p-2 radius-2 w-[10%] text-white flex justify-center items-center">
-                                            +
-                                        </button>
+                                        <AgregarCliente />
                                     </div>
                                 </div>
                                 <div>
