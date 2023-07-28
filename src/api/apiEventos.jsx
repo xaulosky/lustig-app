@@ -32,6 +32,6 @@ export default {
   getInvitados: (id) => {
     return instance.get("/eventos/invitados", { params: { id_evento: id } });
   },
-
+  
 }
 
