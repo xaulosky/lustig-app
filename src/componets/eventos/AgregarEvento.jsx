@@ -30,7 +30,6 @@ const AgregarEvento = ({ actualizar }) => {
     const crearEvento = (data) => {
         setEnviando(true)
         apiEventos.createEvento(data).then((res) => {
-            console.log(res)
             onCloseEvento()
             reset()
             notificaciones.success("Evento creado exitosamente")

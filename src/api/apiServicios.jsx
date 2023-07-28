@@ -12,6 +12,10 @@ export default {
             }
         })
     },
+    deleteServicio: (id) => {
+        return instance.delete(`/servicios`, { data: { id: id } })
+    },
+
     createServicio: (servicio) => {
         // 'nombre' => 'required|string|max:255',
         return instance.post('/servicios', servicio)

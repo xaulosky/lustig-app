@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import apiEventos from "../api/apiEventos"
-import { Box, Card, CardBody, CardHeader, Grid, GridItem, Heading } from "@chakra-ui/react"
+import { Box, Button, Card, CardBody, CardHeader, Flex, Grid, GridItem, Heading } from "@chakra-ui/react"
 
 import { MapContainer } from 'react-leaflet/MapContainer'
 import { TileLayer } from 'react-leaflet/TileLayer'
@@ -9,6 +9,10 @@ import { useMap } from 'react-leaflet/hooks'
 import { Circle, Marker, Popup } from "react-leaflet"
 import 'leaflet/dist/leaflet.css';
 import axios from "axios"
+import EditarCronograma from "../componets/eventos/EditarCronograma"
+
+import 'react-quill/dist/quill.snow.css';
+
 
 const Evento = () => {
     /* get id from url */
@@ -81,7 +85,12 @@ const Evento = () => {
                 }}>
                     <Card>
                         <CardBody>
-                            awd
+                            <Flex justifyContent="space-between" alignItems="center">
+                                <Heading size="md">Cronograma</Heading>
+                                <Button  size="sm"> Modificar Cronograma</Button>
+                            </Flex>
+                            <br />
+                            <EditarCronograma />
                         </CardBody>
                     </Card>
                 </GridItem>
