@@ -1,6 +1,6 @@
 import Tabla from "../componets/Tabla/Tabla"
 import { BiSolidEdit } from "react-icons/bi"
-import { Box, Button, Flex, HStack, Heading } from "@chakra-ui/react"
+import { Badge, Box, Button, Flex, HStack, Heading } from "@chakra-ui/react"
 import apiEventos from "../api/apiEventos"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import AgregarEvento from "../componets/eventos/AgregarEvento"
@@ -13,10 +13,8 @@ const Eventos = () => {
 
     const [data, setData] = useState([])
     const [cargando, setCargando] = useState(false)
-    apiEventos.getEventos().then((res) => {
-        console.log(res)
-    })
 
+    
     /* column name, selector */
     const columns = useMemo(() => {
         return [
@@ -53,7 +51,14 @@ const Eventos = () => {
             {
                 name: "Tipo",
                 selector: "id_tipo_evento",
-                compact: true
+                compact: true,
+                cell: (row) => {
+                    return (
+                        <Badge>{row.id_tipo_evento === 1 ? "Presencial" : "Virtual"}</Badge>
+                    )
+                },
+                center: true
+                
             },
             {
                 name: "Estado",
