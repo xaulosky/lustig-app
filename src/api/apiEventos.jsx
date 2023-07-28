@@ -4,7 +4,7 @@ export default {
     return instance.get("/eventos");
   },
   getEvento: (id) => {
-    return instance.get(`/eventos/buscarId/`, { params: { id: id } });
+    return instance.get(`/eventos/buscarId`, { params: { id: id } });
   },
   createEvento: (evento) => {
     return instance.post("/eventos", evento);

@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 import { AiFillDelete } from "react-icons/ai"
 import Swal from "sweetalert2"
 import apiEventos from "../../api/apiEventos"
-const EliminarEvento = ({ id }) => {
+const EliminarEvento = ({ id, actualizar }) => {
 
   const onClickEliminarEvento = () => {
     Swal.fire({
@@ -26,6 +26,7 @@ const EliminarEvento = ({ id }) => {
             'success'
           )
         })
+        actualizar()
       }
       else {
         Swal.fire({

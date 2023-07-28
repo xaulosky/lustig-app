@@ -22,7 +22,6 @@ const AgregarCliente = () => {
         formState: { errors }
     } = useForm()
 
-
     const crearCliente = (data) => {
         setEnviando(true)
         apiClientes.createCliente(data).then((res) => {

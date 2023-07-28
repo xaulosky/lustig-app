@@ -1,21 +1,20 @@
 import Tabla from "../componets/Tabla/Tabla"
-import { BiSolidEdit } from "react-icons/bi"
-import { Badge, Box, Button, Flex, HStack, Heading } from "@chakra-ui/react"
+import { Badge, Box, Button, Card, CardBody, Flex, Grid, GridItem, HStack, Heading, Input } from "@chakra-ui/react"
 import apiEventos from "../api/apiEventos"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import AgregarEvento from "../componets/eventos/AgregarEvento"
 import EditarEvento from "../componets/eventos/EditarEvento"
 import { GrView } from "react-icons/gr"
-import { AiFillDelete } from "react-icons/ai"
 import { Link } from "react-router-dom"
 import EliminarEvento from "../componets/eventos/EliminarEvento"
+import useClientes from "../hooks/useClientes"
+import { notificaciones } from "../helpers/Notificaciones"
+
 const Eventos = () => {
 
     const [data, setData] = useState([])
     const [cargando, setCargando] = useState(false)
 
-    
-    /* column name, selector */
     const columns = useMemo(() => {
         return [
             {
@@ -23,17 +22,15 @@ const Eventos = () => {
                 selector: "nombre"
             },
             {
-                name: "Descripcion",
-                selector: "descripcion"
-            },
-            {
                 name: "Direccion",
-                selector: "direccion"
+                selector: "direccion",
+                wrap: true
             },
             {
                 name: "Fecha",
                 selector: "fecha",
                 wrap: true,
+                compact: true,
                 cell: (row) => {
                     return (
                         <span>{new Date(row.fecha).toLocaleDateString()}</span>
@@ -41,29 +38,54 @@ const Eventos = () => {
                 }
             },
             {
-                name: "Presupuesto",
-                selector: "presupuesto"
-            },
-            {
                 name: "Cliente",
-                selector: "id_cliente"
+                selector: "cliente_nombre"
             },
             {
+                /*  <option selected value="1">Matrimonio</option>
+                                        <option value="2">Cumpleaños</option>
+                                        <option value="3">Bautizo</option>
+                                        <option value="4">Empresarial</option>
+                                        <option value="5">Otro</option> */
                 name: "Tipo",
                 selector: "id_tipo_evento",
                 compact: true,
                 cell: (row) => {
                     return (
-                        <Badge>{row.id_tipo_evento === 1 ? "Presencial" : "Virtual"}</Badge>
+                        <Badge>{
+                            row.id_tipo_evento === 1 ?
+                                "Matrimonio"
+                                : row.id_tipo_evento === 2 ?
+                                    'Cumpleaños'
+                                    : row.id_tipo_evento === 3 ?
+                                        "Bautizo" :
+                                        row.id_tipo_evento === 4 ?
+                                            "Empresarial" :
+                                            "Otro"
+
+
+
+                        }</Badge>
                     )
                 },
                 center: true
-                
             },
             {
                 name: "Estado",
                 selector: "id_estado_evento",
-                compact: true
+                compact: true,
+                cell: (row) => {
+                    return (
+                        row.id_tipo_evento === 1 ?
+                            <Badge>pendiente</Badge>
+                            : row.id_tipo_evento === 2 ?
+                                <Badge colorScheme="green" >Aprobado</Badge>
+                                : row.id_tipo_evento === 3 ?
+                                    <Badge colorScheme="purple" >Nuevo</Badge>
+                                    : <Badge colorScheme="purple" >Lo que sea</Badge>
+
+                    )
+                },
             },
             {
                 name: "Acciones",
@@ -74,22 +96,24 @@ const Eventos = () => {
                             <Link to={`/evento/${row.id}`} >
                                 <GrView className="cursor-pointer text-lg" />
                             </Link>
-                            <EliminarEvento />
+                            <EliminarEvento id={row.id} actualizar={getData} />
                         </HStack>
                     )
                 },
-                compact: true
+                right: true
             }
 
         ]
     }, [])
-
 
     const getData = useCallback(() => {
         setCargando(true)
         apiEventos.getEventos().then((res) => {
             setData(res.data)
             console.log(res.data)
+            if (res.data.length === 0) {
+                notificaciones.error("No hay eventos")
+            }
         }).finally(() => {
             setCargando(false)
         }
@@ -101,19 +125,45 @@ const Eventos = () => {
     }, [getData])
 
     return (
-        <Box  >
-            <Flex justifyContent="space-between" alignItems="center">
-                <Heading>Eventos</Heading>
-                <AgregarEvento actualizar={getData} />
+        <Grid templateColumns={"repeat(6, 1fr)"} gap={6}>
+            <GridItem colSpan={
+                {
+                    base: 6,
+                    md: 6,
+                    lg: 2,
 
-            </Flex>
-            <br />
-            <Tabla
-                data={data}
-                columnas={columns}
-                titulo={"Eventos"}
-            />
-        </Box>
+                }
+            }>
+                <Heading>Agregar Evento</Heading>
+                <br />
+                <Card>
+                    <CardBody>
+                        <AgregarEvento actualizar={getData} />
+                    </CardBody>
+                </Card>
+            </GridItem>
+
+            <GridItem colSpan={
+                {
+                    base: 6,
+                    md: 6,
+                    lg: 4,
+                }
+            }>
+                <Flex justifyContent="space-between" alignItems="center">
+                    <Heading>Eventos</Heading>
+                    <Input w="50%" placeholder="Buscar" />
+                </Flex>
+                <br />
+                <Card>
+                    <Tabla
+                        data={data}
+                        columnas={columns}
+                        titulo={"Eventos"}
+                    />
+                </Card>
+            </GridItem>
+        </Grid>
     )
 }
 
