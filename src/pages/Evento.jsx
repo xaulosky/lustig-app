@@ -16,11 +16,14 @@ import 'react-quill/dist/quill.snow.css';
 
 const Evento = () => {
     /* get id from url */
+    const [editarCronograma, setEditarCronograma] = useState(false)
     const { id } = useParams()
     const [cargando, setCargando] = useState(false)
     const [data, setData] = useState([])
     const [lat, setLat] = useState()
     const [lon, setLon] = useState()
+
+    const [cronograma, setCronograma] = useState('')
 
     const rutaMap = 'https://geocode.maps.co/search?q='
     /* example https://geocode.maps.co/search?q=los%20angeles%20chile */
@@ -39,6 +42,14 @@ const Evento = () => {
         }
         )
     }, [])
+
+
+    useEffect(() => {
+        apiEventos.getCronograma(id).then((res) => {
+            setCronograma(res.data.cronograma)
+        })
+    }, [])
+
 
     useEffect(() => {
         getData()
@@ -87,10 +98,12 @@ const Evento = () => {
                         <CardBody>
                             <Flex justifyContent="space-between" alignItems="center">
                                 <Heading size="md">Cronograma</Heading>
-                                <Button  size="sm"> Modificar Cronograma</Button>
+                                <Button size="sm" onClick={() => { setEditarCronograma(!editarCronograma) }} > Modificar Cronograma</Button>
                             </Flex>
                             <br />
-                            <EditarCronograma />
+                            {
+                                editarCronograma ? <EditarCronograma id={id} cronograma={cronograma} setCronograma={setCronograma} setEditarCronograma={setEditarCronograma} /> : <div dangerouslySetInnerHTML={{ __html: cronograma }} />
+                            }
                         </CardBody>
                     </Card>
                 </GridItem>
