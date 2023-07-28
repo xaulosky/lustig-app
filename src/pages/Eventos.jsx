@@ -69,11 +69,6 @@ const Eventos = () => {
                 }
             },
             {
-                /*  <option selected value="1">Matrimonio</option>
-                                        <option value="2">Cumpleaños</option>
-                                        <option value="3">Bautizo</option>
-                                        <option value="4">Empresarial</option>
-                                        <option value="5">Otro</option> */
                 name: "Tipo",
                 selector: "id_tipo_evento",
                 compact: true,
@@ -149,7 +144,7 @@ const Eventos = () => {
                 cell: (row) => {
                     return (
                         <HStack>
-                            <EditarEvento />
+                            <EditarEvento row={row} />
                             <Link to={`/evento/${row.id}`} >
                                 <GrView className="cursor-pointer text-lg" />
                             </Link>
@@ -187,11 +182,9 @@ const Eventos = () => {
                     base: 6,
                     md: 6,
                     lg: 2,
-
                 }
             }>
-                <Heading>Agregar Evento</Heading>
-                <br />
+                <Heading size={"sm"} className="p-1" >Agregar Evento</Heading>
                 <Card>
                     <CardBody>
                         <AgregarEvento actualizar={getData} />
@@ -208,7 +201,27 @@ const Eventos = () => {
             }>
                 <Flex justifyContent="space-between" alignItems="center">
                     <Heading>Eventos</Heading>
-                    <Input w="50%" placeholder="Buscar" />
+                    <Input w="50%" placeholder="Buscar" onChange={
+                        (e) => {
+                            if (e.target.value.length > 0) {
+                                apiEventos.getEventos().then((res) => {
+                                    setData(res.data.filter((evento) => {
+                                        return evento.nombre.toLowerCase().includes(e.target.value.toLowerCase())
+                                            || evento.cliente_nombre.toLowerCase().includes(e.target.value.toLowerCase())
+                                            || evento.direccion.toLowerCase().includes(e.target.value.toLowerCase())
+                                            || evento.cliente_rut.toLowerCase().includes(e.target.value.toLowerCase())
+
+                                    }))
+                                    console.log(res.data)
+                                    if (res.data.length === 0) {
+                                        notificaciones.error("No hay eventos")
+                                    }
+                                }).finally(() => {
+                                    setCargando(false)
+                                })
+                            }
+                        }
+                    } />
                 </Flex>
                 <br />
                 <Card>
