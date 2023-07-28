@@ -24,6 +24,6 @@ export default {
     },
     deletePersonal: (id) => instance.delete(`/personal/`, { data: { id } }),
 
-
+    getAreas: () => instance.get('/personal/areas'),
 
 }

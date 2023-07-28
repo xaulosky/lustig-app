@@ -12,47 +12,49 @@ const Tabla = ({ data, columnas, noData, cargando, click, estilos }) => {
   }
 
   return (
-    <DataTable
-      columns={columnas}
-      data={data}
-      progressComponent={<Progress size='xs' isIndeterminate />}
-      direction="auto"
-      onRowClicked={click}
-      select
-      fixedHeader
-      fixedHeaderScrollHeight="600px"
-      highlightOnHover
-      pagination
-      persistTableHead
-      pointerOnHover
-      responsive
-      subHeaderAlign="center"
-      subHeaderWrap
-      /* selectableRowSelected={selectableRowSelected} */
-      noDataComponent={noData ? noData :
-        < Box sx={{ m: '2rem' }} >
-          <Spinner />
-        </Box >
-      }
-      paginationComponentOptions={paginationComponentOptions}
-      progressPending={cargando}
-      customStyles={estilos ? estilos : {
-        headCells: {
-          style: {
-            backgroundColor: '#161616',
-            color: 'white',
-            fontSize: '.8rem',
+    <>
+      <DataTable
+        columns={columnas}
+        data={data}
+        progressComponent={<Progress size='xs' isIndeterminate />}
+        direction="auto"
+        onRowClicked={click}
+        select
+        fixedHeader
+        fixedHeaderScrollHeight="600px"
+        highlightOnHover
+        pagination
+        persistTableHead
+        pointerOnHover
+        responsive
+        subHeaderAlign="center"
+        subHeaderWrap
+        /* selectableRowSelected={selectableRowSelected} */
+        noDataComponent={noData ? noData :
+          < Box sx={{ m: '2rem' }} >
+            <Spinner />
+          </Box >
+        }
+        paginationComponentOptions={paginationComponentOptions}
+        progressPending={cargando}
+        customStyles={estilos ? estilos : {
+          headCells: {
+            style: {
+              backgroundColor: '#161616',
+              color: 'white',
+              fontSize: '.8rem',
+            },
           },
-        },
-        cells: {
-          style: {
-            color: 'tranparent',
-            cursor: 'auto'
+          cells: {
+            style: {
+              color: 'tranparent',
+              cursor: 'auto'
+            },
           },
-        },
-      }}
-    />
+        }}
+      />
 
+    </>
 
   )
 }

@@ -2,6 +2,7 @@ import {
     Editable,
     EditableInput,
     EditablePreview,
+    IconButton,
     Spinner,
 } from '@chakra-ui/react'
 import apiInventario from '../../../api/apiInventario'

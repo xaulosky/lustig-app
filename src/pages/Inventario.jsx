@@ -13,7 +13,6 @@ const Inventario = () => {
   const [cargando, setCargando] = useState(false)
 
   const getData = useCallback(() => {
-    setCargando(true)
     apiInventario.getInventario().then((res) => {
       setData(res.data)
     }).catch((err) => {
@@ -53,7 +52,7 @@ const Inventario = () => {
       {
         name: "Descripción",
         selector: row => (
-          <InputEditable objeto={row} campo={"descripcion"} callback={async (objeto) => {
+          <InputEditable objeto={row} placeholder={'-'} campo={"descripcion"} callback={async (objeto) => {
             await apiInventario.updateObjetoInventario(objeto).then(() => {
               notificaciones.success("Descripción editada")
               getData()
@@ -90,6 +89,7 @@ const Inventario = () => {
   }, [getData])
 
   useEffect(() => {
+    setCargando(true)
     getData()
   }, [getData])
 
