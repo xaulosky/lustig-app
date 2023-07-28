@@ -1,15 +1,17 @@
 import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react"
 import { useState } from "react"
-import { GrFormAdd } from 'react-icons/gr'
 import { useForm } from "react-hook-form"
-import { notificaciones } from "../../helpers/Notificaciones"
-import apiClientes from "../../api/apiClientes"
+import apiInventario from "../../../api/apiInventario"
+import { notificaciones } from "../../../helpers/Notificaciones"
+import { BsPlus } from "react-icons/bs";
 
-const AgregarCliente = () => {
+import PropTypes from 'prop-types'
+
+const AgregarObjetoInventario = ({ actualizar }) => {
 
 
     const [isOpen, setIsOpen] = useState(false)
-    const onCloseCliente = () => setIsOpen(false)
+    const onClose = () => setIsOpen(false)
     const onClickEvento = () => setIsOpen(true)
 
     const [enviando, setEnviando] = useState(false)
@@ -20,37 +22,38 @@ const AgregarCliente = () => {
         reset,
     } = useForm()
 
-    const crearCliente = (data) => {
+    const crearObjeto = (data) => {
         setEnviando(true)
-        apiClientes.createCliente(data).then((res) => {
-            console.log(res)
-            onCloseCliente()
-            reset()
-            notificaciones.success("Evento creado exitosamente")
-            /* actualizar() */
-        }
-        ).catch((err) => {
-            console.log(err)
-            notificaciones.error("Error al crear evento")
-        }).finally(() => {
-            setEnviando(false)
-        })
+        apiInventario.createObjetoInventario(data)
+            .then((res) => {
+                console.log(res)
+                onClose()
+                reset()
+                actualizar()
+                notificaciones.success("Agregado creado exitosamente")
+            }
+            ).catch((err) => {
+                console.log(err)
+                notificaciones.error("Error al crear")
+            }).finally(() => {
+                setEnviando(false)
+            })
     }
 
 
     return (
         <>
             <Button onClick={() => onClickEvento()} colorScheme="blue" borderRadius="0" className="text-white">
-                <GrFormAdd />
+                <BsPlus color="inherit" fill="white" />&nbsp;&nbsp;Agregar
             </Button>
-            <Modal isOpen={isOpen} onClose={onCloseCliente}>
+            <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Agregar Cliente</ModalHeader>
-                    <ModalCloseButton onClick={onCloseCliente} />
+                    <ModalHeader>Agregar al Inventario</ModalHeader>
+                    <ModalCloseButton onClick={onClose} />
                     <ModalBody>
-                        <form id="formulario_evento" onSubmit={handleSubmit(crearCliente)}>
-                            <div className="grid gap-4 mb-4 sm:grid-cols-2">
+                        <form id="formulario_inventario" onSubmit={handleSubmit(crearObjeto)}>
+                            <div className="flex flex-col column gap-4 mb-4 sm:grid-cols-1">
                                 <div>
                                     <label
                                         htmlFor="nombre"
@@ -63,29 +66,9 @@ const AgregarCliente = () => {
                                         name="nombre"
                                         id="nombre"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Nombre del evento"
+                                        placeholder="Nombre"
                                         {
                                         ...register("nombre", {
-                                            required: true,
-                                        })
-                                        }
-                                    />
-                                </div>
-                                <div>
-                                    <label
-                                        htmlFor="apellido"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                    >
-                                        Apellido
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="apellido"
-                                        id="apellido"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Nombre del evento"
-                                        {
-                                        ...register("apellido", {
                                             required: true,
                                         })
                                         }
@@ -94,19 +77,19 @@ const AgregarCliente = () => {
 
                                 <div>
                                     <label
-                                        htmlFor="rut"
+                                        htmlFor="cantidad"
                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                     >
-                                        Rut
+                                        Cantidad
                                     </label>
                                     <input
-                                        type="text"
-                                        name="rut"
-                                        id="rut"
+                                        type="number"
+                                        name="cantidad"
+                                        id="cantidad"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Ubicación del evento"
+                                        placeholder="Cantidad"
                                         {
-                                        ...register("rut", {
+                                        ...register("cantidad", {
                                             required: true,
                                         })
                                         }
@@ -114,40 +97,40 @@ const AgregarCliente = () => {
                                 </div>
                                 <div>
                                     <label
-                                        htmlFor="telefono"
+                                        htmlFor="descripcion"
                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                     >
-                                        Teléfono
+                                        Descripción
                                     </label>
                                     <input
-                                        type="number"
-                                        name="telefono"
-                                        id="telefono"
+                                        type="text"
+                                        name="descripcion"
+                                        id="descripcion"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Teléfono del evento"
+                                        placeholder="Descripción"
                                         {
-                                        ...register("telefono", {
-                                            required: true,
+                                        ...register("descripcion", {
+                                            required: false,
                                         })
                                         }
                                     />
                                 </div>
                                 <div className="col-span-2">
                                     <label
-                                        htmlFor="direccion"
+                                        htmlFor="tipo"
                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white "
                                     >
-                                        Dirección
+                                        Categoría
                                     </label>
                                     <input
-                                        type="number"
-                                        name="direccion"
-                                        id="direccion"
+                                        type="text"
+                                        name="tipo"
+                                        id="tipo"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Dirección del cliente"
+                                        placeholder="Categoría"
                                         {
-                                        ...register("direccion", {
-                                            required: true,
+                                        ...register("tipo", {
+                                            required: false,
                                         })
                                         }
                                     />
@@ -160,10 +143,10 @@ const AgregarCliente = () => {
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme='blue' mr={3} type="submit" form="formulario_evento" isLoading={enviando}>
-                            Crear Evento
+                        <Button colorScheme='blue' mr={3} type="submit" form="formulario_inventario" isLoading={enviando}>
+                            Crear
                         </Button>
-                        <Button variant='ghost' onClick={onCloseCliente}>Cancelar</Button>
+                        <Button variant='ghost' onClick={onClose}>Cancelar</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
@@ -172,5 +155,8 @@ const AgregarCliente = () => {
     )
 }
 
-export default AgregarCliente
+export default AgregarObjetoInventario
 
+AgregarObjetoInventario.propTypes = {
+    actualizar: PropTypes.func.isRequired
+}
