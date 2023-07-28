@@ -1,10 +1,9 @@
-import { Button, Flex, IconButton, Input, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react'
+import { Button, Flex, Input, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react'
 import React from 'react'
 import { AiFillEdit } from 'react-icons/ai'
 import PropTypes from 'prop-types'
 import apiInventario from '../../../api/apiInventario'
 import { notificaciones } from '../../../helpers/Notificaciones'
-import axios from 'axios'
 
 const EditarObjetoInventario = ({ objetoInventario, soloCantidad }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -46,14 +45,14 @@ const EditarObjetoInventario = ({ objetoInventario, soloCantidad }) => {
                 </React.Fragment>
                 :
                 <React.Fragment>
-                    <IconButton
+                    {/* <IconButton
                         isRound
                         colorScheme="blue"
                         variant="solid"
-                        onClick={onOpen}
+                       
                     >
-                        <AiFillEdit />
-                    </IconButton>
+                    </IconButton> */}
+                        <AiFillEdit  onClick={onOpen}/>
                     <Modal isOpen={isOpen} onClose={onClose}>
                         <ModalOverlay />
                         <ModalContent>
