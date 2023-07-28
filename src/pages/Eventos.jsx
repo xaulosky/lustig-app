@@ -1,5 +1,5 @@
 import Tabla from "../componets/Tabla/Tabla"
-import { Badge, Box, Button, Card, CardBody, Flex, Grid, GridItem, HStack, Heading, Input, Menu } from "@chakra-ui/react"
+import { Badge, Box, Button, Card, CardBody, Flex, Grid, GridItem, HStack, Heading, Input, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react"
 import apiEventos from "../api/apiEventos"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import AgregarEvento from "../componets/eventos/AgregarEvento"
@@ -9,6 +9,7 @@ import { Link } from "react-router-dom"
 import EliminarEvento from "../componets/eventos/EliminarEvento"
 import useClientes from "../hooks/useClientes"
 import { notificaciones } from "../helpers/Notificaciones"
+import { BiDownArrow } from "react-icons/bi"
 
 const Eventos = () => {
 
@@ -91,7 +92,16 @@ const Eventos = () => {
 
                             }
                             <Menu>
-                                
+                                <MenuButton as={Button} rightIcon={<BiDownArrow />}>
+                                    Actions
+                                </MenuButton>
+                                <MenuList>
+                                    <MenuItem>Download</MenuItem>
+                                    <MenuItem>Create a Copy</MenuItem>
+                                    <MenuItem>Mark as Draft</MenuItem>
+                                    <MenuItem>Delete</MenuItem>
+                                    <MenuItem>Attend a Workshop</MenuItem>
+                                </MenuList>
                             </Menu>
                         </>
 

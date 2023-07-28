@@ -6,19 +6,30 @@ import { Box, Card, CardBody, CardHeader, Grid, GridItem, Heading } from "@chakr
 import { MapContainer } from 'react-leaflet/MapContainer'
 import { TileLayer } from 'react-leaflet/TileLayer'
 import { useMap } from 'react-leaflet/hooks'
-import { Marker, Popup } from "react-leaflet"
+import { Circle, Marker, Popup } from "react-leaflet"
+import 'leaflet/dist/leaflet.css';
+import axios from "axios"
 
 const Evento = () => {
     /* get id from url */
     const { id } = useParams()
     const [cargando, setCargando] = useState(false)
     const [data, setData] = useState([])
+    const [lat, setLat] = useState()
+    const [lon, setLon] = useState()
 
+    const rutaMap = 'https://geocode.maps.co/search?q='
+    /* example https://geocode.maps.co/search?q=los%20angeles%20chile */
     const getData = useCallback(() => {
         setCargando(true)
         apiEventos.getEvento(id).then((res) => {
             setData(res.data)
             console.log(res.data)
+            axios.get(rutaMap + res.data.direccion).then((res) => {
+                console.log(res);
+                setLat(res.data[0]?.lat)
+                setLon(res.data[0]?.lon)
+            })
         }).finally(() => {
             setCargando(false)
         }
@@ -78,18 +89,25 @@ const Evento = () => {
                     base: 6,
                     lg: 2
                 }}>
-                    <Card>
-                        <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false} >
-                            <TileLayer
-                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            />
-                            <Marker position={[51.505, -0.09]}>
-                                <Popup>
-                                    los mayas 1643 los angeles
-                                </Popup>
-                            </Marker>
-                        </MapContainer>
+                    <Card >
+                        {
+                            lat && lon ?
+                                <MapContainer center={[lat, lon]} zoom={15} scrollWheelZoom={false} style={{
+                                    height: "300px",
+                                }}  >
+                                    <TileLayer
+                                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                    />
+                                    <Circle center={[lat, lon]} radius={50}>
+                                        <Popup>
+                                            {
+                                                data.direccion
+                                            }
+                                        </Popup>
+                                    </Circle>
+                                </MapContainer> : null
+                        }
                     </Card>
                 </GridItem>
 
