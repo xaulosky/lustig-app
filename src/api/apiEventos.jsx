@@ -32,6 +32,13 @@ export default {
   getInvitados: (id) => {
     return instance.get("/eventos/invitados", { params: { id_evento: id } });
   },
-  
+
+  getCronograma: (id) => {
+    return instance.get("/eventos/cronograma", { params: { id: id } });
+  },
+  editarCronograma: (id, cronograma) => {
+    return instance.put("/eventos/cronograma", { id, cronograma });
+  }
+
 }
 
