@@ -20,13 +20,17 @@ const EliminarEvento = ({ id, actualizar }) => {
       if (result.isConfirmed) {
         apiEventos.deleteEvento(id).then((res) => {
           console.log(res)
-          Swal.fire(
-            'Eliminado!',
-            'El evento ha sido eliminado.',
-            'success'
-          )
+          Swal.fire({
+            icon: 'success',
+            title: 'Evento eliminado',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+          })
+        }).then(() => {
+          actualizar()
         })
-        actualizar()
+
       }
       else {
         Swal.fire({

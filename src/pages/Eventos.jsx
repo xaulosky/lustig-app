@@ -1,5 +1,5 @@
 import Tabla from "../componets/Tabla/Tabla"
-import { Badge, Box, Button, Card, CardBody, Flex, Grid, GridItem, HStack, Heading, Input, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react"
+import { Badge, Box, Button, Card, CardBody, Flex, Grid, GridItem, HStack, Heading, Input, Menu, MenuButton, MenuItem, MenuList, Select, Spinner } from "@chakra-ui/react"
 import apiEventos from "../api/apiEventos"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import AgregarEvento from "../componets/eventos/AgregarEvento"
@@ -10,11 +10,15 @@ import EliminarEvento from "../componets/eventos/EliminarEvento"
 import useClientes from "../hooks/useClientes"
 import { notificaciones } from "../helpers/Notificaciones"
 import { BiDownArrow } from "react-icons/bi"
+import { Tooltip } from '@chakra-ui/react'
+import { set } from "react-hook-form"
 
 const Eventos = () => {
 
     const [data, setData] = useState([])
     const [cargando, setCargando] = useState(false)
+
+    const [isLoading, setIsLoading] = useState(false)
 
     const columns = useMemo(() => {
         return [
@@ -25,7 +29,22 @@ const Eventos = () => {
             {
                 name: "Direccion",
                 selector: "direccion",
-                wrap: true
+                wrap: true,
+                cell: (row) => {
+                    return (
+                        <>
+                            <Tooltip label={row.direccion}>
+                                <span style={
+                                    {
+                                        whiteSpace: "nowrap",
+                                        overflow: "hidden",
+                                        maxWidth: "150px",
+                                    }
+                                }>{row.direccion}</span>
+                            </Tooltip>
+                        </>
+                    )
+                }
             },
             {
                 name: "Fecha",
@@ -40,7 +59,14 @@ const Eventos = () => {
             },
             {
                 name: "Cliente",
-                selector: "cliente_nombre"
+                selector: "cliente_nombre",
+                cell: (row) => {
+                    return (
+                        <Tooltip label={row.cliente_nombre + " " + row.cliente_rut}>
+                            <span>{row.cliente_nombre}</span>
+                        </Tooltip>
+                    )
+                }
             },
             {
                 /*  <option selected value="1">Matrimonio</option>
@@ -79,30 +105,40 @@ const Eventos = () => {
                 cell: (row) => {
                     return (
                         <>
-                            {
-                                row.id_estado_evento === 1 ?
-                                    <Badge>pendiente</Badge>
-                                    : row.id_estado_evento === 2 ?
-                                        <Badge colorScheme="green" >Confirmado</Badge>
-                                        : row.id_estado_evento === 3 ?
-                                            <Badge colorScheme="purple" >En curso</Badge>
-                                            : row.id_estado_evento === 3 ?
-                                                <Badge colorScheme="purple" >Finalizado</Badge> :
-                                                <Badge colorScheme="red" >Cancelado</Badge>
 
-                            }
-                            <Menu>
-                                <MenuButton as={Button} rightIcon={<BiDownArrow />}>
-                                    Actions
-                                </MenuButton>
-                                <MenuList>
-                                    <MenuItem>Download</MenuItem>
-                                    <MenuItem>Create a Copy</MenuItem>
-                                    <MenuItem>Mark as Draft</MenuItem>
-                                    <MenuItem>Delete</MenuItem>
-                                    <MenuItem>Attend a Workshop</MenuItem>
-                                </MenuList>
-                            </Menu>
+                            <Select bg={
+                                row.id_estado_evento === 1 ?
+                                    "gray.200"
+                                    : row.id_estado_evento === 2 ?
+                                        "green.200"
+                                        : row.id_estado_evento === 3 ?
+                                            "purple.200"
+                                            : row.id_estado_evento === 4 ?
+                                                "blue.200"
+                                                : "red.200"
+
+                            } size="xs" value={row.id_estado_evento} onChange={
+                                (e) => {
+                                    setIsLoading(true)
+                                    apiEventos.updateEvento({
+                                        ...row,
+                                        id_estado_evento: e.target.value
+                                    }).then(() => {
+                                        notificaciones.success("Estado actualizado")
+                                        getData()
+                                    }).finally(() => {
+                                        setIsLoading(false)
+                                    }
+                                    )
+                                }
+                            }>
+                                <option value="1">Pendiente</option>
+                                <option value="2">Confirmado</option>
+                                <option value="3">En curso</option>
+                                <option value="4">Finalizado</option>
+                                <option value="5">Cancelado</option>
+                            </Select>
+
                         </>
 
                     )

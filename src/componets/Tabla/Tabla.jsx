@@ -51,8 +51,15 @@ const Tabla = ({ data, columnas, noData, cargando, click, estilos }) => {
               cursor: 'auto'
             },
           },
+<<<<<<< HEAD
+        },
+
+      }}
+    />
+=======
         }}
       />
+>>>>>>> 87ee3c179b5647fe38dde4c704fba4c0fa8af1a0
 
     </>
 
