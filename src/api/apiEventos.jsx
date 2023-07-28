@@ -28,8 +28,10 @@ export default {
   },
   deleteTipoEvento: (id) => {
     return instance.delete("/tipoEventos", { data: { id } })
-  }
-
+  },
+  getInvitados: (id) => {
+    return instance.get("/eventos/invitados", { params: { id_evento: id } });
+  },
 
 }
 

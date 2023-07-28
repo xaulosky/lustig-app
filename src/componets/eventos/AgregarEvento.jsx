@@ -142,10 +142,6 @@ const AgregarEvento = ({ actualizar }) => {
                             })
                             }
                         />
-
-
-
-
                     </div>
                     <div>
                         <label

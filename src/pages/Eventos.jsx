@@ -1,5 +1,5 @@
 import Tabla from "../componets/Tabla/Tabla"
-import { Badge, Box, Button, Card, CardBody, Flex, Grid, GridItem, HStack, Heading, Input } from "@chakra-ui/react"
+import { Badge, Box, Button, Card, CardBody, Flex, Grid, GridItem, HStack, Heading, Input, Menu } from "@chakra-ui/react"
 import apiEventos from "../api/apiEventos"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import AgregarEvento from "../componets/eventos/AgregarEvento"
@@ -74,15 +74,26 @@ const Eventos = () => {
                 name: "Estado",
                 selector: "id_estado_evento",
                 compact: true,
+                center: true,
                 cell: (row) => {
                     return (
-                        row.id_tipo_evento === 1 ?
-                            <Badge>pendiente</Badge>
-                            : row.id_tipo_evento === 2 ?
-                                <Badge colorScheme="green" >Aprobado</Badge>
-                                : row.id_tipo_evento === 3 ?
-                                    <Badge colorScheme="purple" >Nuevo</Badge>
-                                    : <Badge colorScheme="purple" >Lo que sea</Badge>
+                        <>
+                            {
+                                row.id_estado_evento === 1 ?
+                                    <Badge>pendiente</Badge>
+                                    : row.id_estado_evento === 2 ?
+                                        <Badge colorScheme="green" >Confirmado</Badge>
+                                        : row.id_estado_evento === 3 ?
+                                            <Badge colorScheme="purple" >En curso</Badge>
+                                            : row.id_estado_evento === 3 ?
+                                                <Badge colorScheme="purple" >Finalizado</Badge> :
+                                                <Badge colorScheme="red" >Cancelado</Badge>
+
+                            }
+                            <Menu>
+                                
+                            </Menu>
+                        </>
 
                     )
                 },
@@ -102,7 +113,6 @@ const Eventos = () => {
                 },
                 right: true
             }
-
         ]
     }, [])
 
