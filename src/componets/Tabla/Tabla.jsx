@@ -50,6 +50,7 @@ const Tabla = ({ data, columnas, noData, cargando, click, estilos }) => {
             cursor: 'auto'
           },
         },
+
       }}
     />
 

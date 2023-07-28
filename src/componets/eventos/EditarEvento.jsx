@@ -14,9 +14,6 @@ const EditarEvento = ({ row }) => {
     const {
         register,
         handleSubmit,
-        watch,
-        reset,
-        formState: { errors }
     } = useForm()
 
     const editarEvento = (data) => {
