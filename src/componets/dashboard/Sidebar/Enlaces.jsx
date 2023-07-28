@@ -37,6 +37,12 @@ const Enlaces = () => {
             nombre: 'Inventario',
             icono: <BiClipboard />
         },
+        {
+            id: 6,
+            ruta: '/servicios',
+            nombre: 'Servicios',
+            icono: <AiFillHome />
+        }
     ]
 
 

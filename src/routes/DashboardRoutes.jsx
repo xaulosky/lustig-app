@@ -7,6 +7,7 @@ import Eventos from '../pages/Eventos'
 import Personal from '../pages/Personal'
 import Inventario from '../pages/Inventario'
 import Evento from '../pages/Evento'
+import Servicios from '../pages/Servicios'
 
 
 const DashboardRoutes = () => {
@@ -20,6 +21,8 @@ const DashboardRoutes = () => {
                 <Route path='/evento/:id' element={<Evento />} />
                 <Route path="/personal" element={<Personal />} />
                 <Route path="/inventario" element={<Inventario />} />
+                <Route path="/servicios" element={<Servicios />} />
+
 
 
 

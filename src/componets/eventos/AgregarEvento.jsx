@@ -1,21 +1,22 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react"
+import { Button, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react"
 import apiEventos from "../../api/apiEventos"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { GrFormAdd } from 'react-icons/gr'
-import { useForm } from "react-hook-form"
+import { set, useForm } from "react-hook-form"
 import useClientes from "../../hooks/useClientes"
 import { notificaciones } from "../../helpers/Notificaciones"
 import AgregarCliente from "../clientes/AgregarCliente"
-
+import apiClientes from "../../api/apiClientes"
 
 const AgregarEvento = ({ actualizar }) => {
     const [isOpen, setIsOpen] = useState(false)
     const onCloseEvento = () => setIsOpen(false)
     const onClickEvento = () => setIsOpen(true)
 
-    const clientes = useClientes() /* nombre, apellido, telefono, direccion */
+    const [clientes, setClientes] = useState([])
+
     const [enviando, setEnviando] = useState(false)
 
     const {
@@ -29,7 +30,6 @@ const AgregarEvento = ({ actualizar }) => {
     const crearEvento = (data) => {
         setEnviando(true)
         apiEventos.createEvento(data).then((res) => {
-            console.log(res)
             onCloseEvento()
             reset()
             notificaciones.success("Evento creado exitosamente")
@@ -42,8 +42,13 @@ const AgregarEvento = ({ actualizar }) => {
             setEnviando(false)
         })
     }
-
-
+    useEffect(() => {
+        apiClientes.getClientes().then((res) => {
+            setClientes(res.data)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }, [])
     return (
         <>
             <form id="formulario_evento" onSubmit={handleSubmit(crearEvento)}>
@@ -56,13 +61,17 @@ const AgregarEvento = ({ actualizar }) => {
                             Selecciona o agrega un cliente
                         </label>
                         <div className="flex">
-                            <input
+                            <Input
                                 list="clientes"
                                 type="text"
                                 name="id_cliente"
                                 id="id_cliente"
-                                className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-l-lg   focus:ring-primary-600 focus:border-primary-600 block w-[90%] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-l-lg focus:ring-primary-600 focus:border-primary-600 block w-[90%] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                 placeholder="Buscar Cliente"
+                                style={{
+                                    borderTopRightRadius: "0",
+                                    borderBottomRightRadius: "0"
+                                }}
                                 {
                                 ...register("id_cliente", {
                                     required: true,
@@ -74,12 +83,12 @@ const AgregarEvento = ({ actualizar }) => {
                                 {
                                     clientes.map((cliente) => {
                                         return (
-                                            <option key={cliente.id} value={cliente.id}>{cliente.nombre} {cliente.apellido}</option>
+                                            <option key={cliente.id} value={cliente.id}>{cliente.nombre} {cliente.apellido} {cliente.rut} </option>
                                         )
                                     })
                                 }
                             </datalist>
-                            <AgregarCliente />
+                            <AgregarCliente setClientes={setClientes} />
                         </div>
                     </div>
                     <div>
@@ -187,6 +196,30 @@ const AgregarEvento = ({ actualizar }) => {
                             }
                         />
                     </div>
+                    <div>
+                        <label
+                            htmlFor="id_estado_evento"
+                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        >
+                            Estado Evento
+                        </label>
+                        <select
+                            id="id_estado_evento"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            {
+                            ...register("id_estado_evento", {
+                                required: true,
+                            })
+
+                            }
+                        >
+                            <option value="1">Pendiente</option>
+                            <option value="2">Confirmado</option>
+                            <option value="3">En curso</option>
+                            <option value="4">Finalizado</option>
+                            <option value="5">Cancelado</option>
+                        </select>
+                    </div>
                     <div className="sm:col-span-2">
                         <label
                             htmlFor="descripcion"
@@ -206,6 +239,7 @@ const AgregarEvento = ({ actualizar }) => {
                             }
                         />
                     </div>
+
                 </div>
                 <Button w="100%" type="submit" form="formulario_evento" isLoading={enviando}>
                     Crear Evento

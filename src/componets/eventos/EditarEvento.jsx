@@ -2,6 +2,8 @@ import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, 
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { BiSolidEdit } from "react-icons/bi"
+import apiEventos from "../../api/apiEventos"
+import { notificaciones } from "../../helpers/Notificaciones"
 
 const EditarEvento = ({ row }) => {
 
@@ -9,15 +11,33 @@ const EditarEvento = ({ row }) => {
     const onCloseEditarEvento = () => { setIsOpen(false) }
     const onClickEditarEvento = () => setIsOpen(true)
 
-    const [enviando, setEnviando] = useState(false)
 
+    const [enviando, setEnviando] = useState(false)
     const {
         register,
         handleSubmit,
     } = useForm()
 
     const editarEvento = (data) => {
-        console.log(data)
+        setEnviando(true)
+        apiEventos.updateEvento({
+            ...data,
+            id: row.id
+        }).then((res) => {
+            onCloseEditarEvento()
+            notificaciones.success("Evento editado exitosamente")
+        }
+        ).catch((err) => {
+            console.log(err);
+            onCloseEditarEvento()
+            notificaciones.error("Error al editar evento")
+        }
+        ).finally(() => {
+            setEnviando(false)
+            onCloseEditarEvento()
+        }
+        )
+
     }
 
     return (
@@ -29,7 +49,7 @@ const EditarEvento = ({ row }) => {
                     <ModalHeader>Editar Evento </ModalHeader>
                     <ModalCloseButton onClick={onCloseEditarEvento} />
                     <ModalBody>
-                        <form id="formulario_evento" onSubmit={handleSubmit(editarEvento)}>
+                        <form id="formulario_editar_evento" onSubmit={handleSubmit(editarEvento)}>
                             <div className="grid gap-4 mb-4 sm:grid-cols-2">
 
                                 <div>
@@ -40,6 +60,7 @@ const EditarEvento = ({ row }) => {
                                         Nombre
                                     </label>
                                     <input
+                                        defaultValue={row.nombre}
                                         type="text"
                                         name="nombre"
                                         id="nombre"
@@ -61,6 +82,7 @@ const EditarEvento = ({ row }) => {
                                         Dirección
                                     </label>
                                     <input
+                                        defaultValue={row.direccion}
                                         type="text"
                                         name="direccion"
                                         id="direccion"
@@ -81,6 +103,7 @@ const EditarEvento = ({ row }) => {
                                         Presupuesto
                                     </label>
                                     <input
+                                        defaultValue={row.presupuesto}
                                         type="number"
                                         name="presupuesto"
                                         id="presupuesto"
@@ -105,6 +128,7 @@ const EditarEvento = ({ row }) => {
                                         Tipo de evento
                                     </label>
                                     <select
+                                        defaultValue={row.id_tipo_evento}
                                         id="id_tipo_evento"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         {
@@ -129,6 +153,7 @@ const EditarEvento = ({ row }) => {
                                         Fecha Evento
                                     </label>
                                     <input
+                                        defaultValue={row.fecha}
                                         type="datetime-local"
                                         name="fecha"
                                         id="fecha"
@@ -141,6 +166,31 @@ const EditarEvento = ({ row }) => {
                                         }
                                     />
                                 </div>
+                                <div>
+                                    <label
+                                        htmlFor="id_estado_evento"
+                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                    >
+                                        Estado Evento
+                                    </label>
+                                    <select
+                                        defaultValue={row.id_estado_evento}
+                                        id="id_estado_evento"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                        {
+                                        ...register("id_estado_evento", {
+                                            required: true,
+                                        })
+
+                                        }
+                                    >
+                                        <option value="1">Pendiente</option>
+                                        <option value="2">Confirmado</option>
+                                        <option value="3">En curso</option>
+                                        <option value="4">Finalizado</option>
+                                        <option value="5">Cancelado</option>
+                                    </select>
+                                </div>
                                 <div className="sm:col-span-2">
                                     <label
                                         htmlFor="descripcion"
@@ -149,6 +199,7 @@ const EditarEvento = ({ row }) => {
                                         Descripción
                                     </label>
                                     <textarea
+                                        defaultValue={row.descripcion}
                                         id="descripcion"
                                         rows={5}
                                         className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -167,7 +218,7 @@ const EditarEvento = ({ row }) => {
                     </ModalBody>
 
                     <ModalFooter>
-                        <Button colorScheme='blue' mr={3} type="submit" form="formulario_evento" isLoading={enviando}>
+                        <Button isLoading={enviando} colorScheme='blue' mr={3} type="submit" form="formulario_editar_evento" isLoading={enviando}>
                             Editar Evento
                         </Button>
                         <Button variant='ghost' onClick={onCloseEditarEvento}>Cancelar</Button>
