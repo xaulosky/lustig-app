@@ -100,6 +100,7 @@ const Inventario = () => {
         <AgregarObjetoInventario actualizar={getData} />
       </Flex>
       <br />
+
       <Tabla
         data={data}
         columnas={columns}
