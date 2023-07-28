@@ -1,5 +1,5 @@
-import { Button, Flex, Input, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react'
-import React from 'react'
+import { Box, Button, Flex, Input, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Text, useDisclosure } from '@chakra-ui/react'
+import { useState } from 'react'
 import { AiFillEdit } from 'react-icons/ai'
 import PropTypes from 'prop-types'
 import apiInventario from '../../../api/apiInventario'
@@ -8,7 +8,7 @@ import { notificaciones } from '../../../helpers/Notificaciones'
 const EditarObjetoInventario = ({ objetoInventario, soloCantidad }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
-    const [cantidad, setCantidad] = React.useState(objetoInventario.cantidad)
+    const [cantidad, setCantidad] = useState(objetoInventario.cantidad)
 
     const EditarObjeto = async () => {
         apiInventario.updateObjetoInventario({ ...objetoInventario, cantidad }).then(() => {
@@ -21,10 +21,9 @@ const EditarObjetoInventario = ({ objetoInventario, soloCantidad }) => {
         })
     }
     return (
-        <React.Fragment>
-
+        <Box>
             {soloCantidad ?
-                <React.Fragment>
+                <>
                     <Flex alignItems="center">
                         <Button onClick={onOpen}>
                             <span>{objetoInventario.cantidad}</span>
@@ -42,9 +41,9 @@ const EditarObjetoInventario = ({ objetoInventario, soloCantidad }) => {
                             <Button onClick={EditarObjeto}>Editar</Button>
                         </ModalContent>
                     </Modal>
-                </React.Fragment>
+                </>
                 :
-                <React.Fragment>
+                <>
                     {/* <IconButton
                         isRound
                         colorScheme="blue"
@@ -52,7 +51,7 @@ const EditarObjetoInventario = ({ objetoInventario, soloCantidad }) => {
                        
                     >
                     </IconButton> */}
-                        <AiFillEdit  onClick={onOpen}/>
+                    <AiFillEdit onClick={onOpen} />
                     <Modal isOpen={isOpen} onClose={onClose}>
                         <ModalOverlay />
                         <ModalContent>
@@ -69,9 +68,9 @@ const EditarObjetoInventario = ({ objetoInventario, soloCantidad }) => {
                             </ModalBody>
                         </ModalContent>
                     </Modal >
-                </React.Fragment>
+                </>
             }
-        </React.Fragment >
+        </Box>
     )
 }
 

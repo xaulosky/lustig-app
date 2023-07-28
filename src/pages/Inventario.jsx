@@ -3,6 +3,9 @@ import { Box, Flex, Heading } from "@chakra-ui/react"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import apiInventario from "../api/apiInventario"
 import EditarObjetoInventario from "../componets/inventario/acciones/EditarObjeto"
+import EditarCantidad from "../componets/inventario/acciones/EditarCantidad"
+import InputEditable from "../componets/generales/InputEditable"
+import { notificaciones } from "../helpers/Notificaciones"
 const Inventario = () => {
 
   const [data, setData] = useState([])
@@ -20,7 +23,33 @@ const Inventario = () => {
       {
         name: "Cantidad",
         selector: row => (
-          <EditarObjetoInventario objetoInventario={row} soloCantidad={true} />
+          <EditarCantidad objetoInventario={row} />
+        )
+      },
+      {
+        name: "Descripción",
+        selector: row => (
+          <InputEditable objeto={row} campo={"descripcion"} callback={async (objeto) => {
+            await apiInventario.updateObjetoInventario(objeto).then(() => {
+              notificaciones.success("Descripción editada")
+              getData()
+            }).catch((err) => {
+              notificaciones.error(err.data?.message || "Error al editar descripción")
+            })
+          }} />
+        )
+      },
+      {
+        name: "Categoría",
+        selector: row => (
+          <InputEditable objeto={row} campo={"tipo"} placeholder={'-'} callback={async (objeto) => {
+            await apiInventario.updateObjetoInventario(objeto).then(() => {
+              notificaciones.success("Categoría editada")
+              getData()
+            }).catch((err) => {
+              notificaciones.error(err.data?.message || "Error al editar categoría")
+            })
+          }} />
         )
       },
       {
