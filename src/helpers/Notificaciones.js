@@ -46,4 +46,14 @@ export const notificaciones = {
       background: "#7CB9E8",
     });
   },
+  confirmacion: async (titulo = "¿Estás seguro?", mensaje = "") => {
+    const { isConfirmed } = await Swal.fire({
+      title: titulo,
+      text: mensaje,
+      showCancelButton: true,
+      confirmButtonColor: "#161616",
+      cancelButtonColor: "#cc0000",
+    });
+    return isConfirmed;
+  }
 };

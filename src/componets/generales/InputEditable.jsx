@@ -38,9 +38,8 @@ const InputEditable = ({ objeto, campo, formato, validacion, callback, numerico,
         const { isConfirmed } = await Swal.fire({
             title: '¿Está seguro?',
             text: "Se editará el campo",
-            icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#161616',
             cancelButtonColor: '#d33'
         })
         if (isConfirmed) {
