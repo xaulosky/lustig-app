@@ -18,4 +18,18 @@ export default {
   cambiarEstado: (id, idEstado) => {
     return instance.put("eventos/estado", { id, id_estado_evento: idEstado });
   },
-};
+
+  getTiposEventos: () => {
+    return instance.get("/tipoEventos")
+  },
+  // 'nombre' => 'required|string|max:255'
+  createTipoEvento: (tipoEvento) => {
+    return instance.post("/tipoEventos", tipoEvento)
+  },
+  deleteTipoEvento: (id) => {
+    return instance.delete("/tipoEventos", { data: { id } })
+  }
+
+
+}
+
