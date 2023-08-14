@@ -18,7 +18,6 @@ export default {
   cambiarEstado: (id, idEstado) => {
     return instance.put("eventos/estado", { id, id_estado_evento: idEstado });
   },
-
   getTiposEventos: () => {
     return instance.get("/tipoEventos")
   },

@@ -26,9 +26,7 @@ const Inventario = () => {
     return [
       {
         name: "Nombre",
-        selector: row => (<Flex alignItems="center" fontSize={'large'}>
-          <h1 className="ml-2 text-gray-500">{row.nombre}</h1>
-        </Flex>)
+        selector: "nombre"
       },
       {
         name: "Cantidad",

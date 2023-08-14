@@ -1,8 +1,8 @@
 
 import { AiFillHome } from 'react-icons/ai'
 import { BiClipboard, BiSolidUser } from 'react-icons/bi'
-
-
+import { BsCalendar2EventFill, BsFillPeopleFill } from 'react-icons/bs'
+import { MdHomeRepairService } from 'react-icons/md'
 
 const Enlaces = () => {
 
@@ -23,13 +23,13 @@ const Enlaces = () => {
             id: 3,
             ruta: '/eventos',
             nombre: 'Eventos',
-            icono: <AiFillHome />
+            icono: <BsCalendar2EventFill />
         },
         {
             id: 4,
             ruta: '/personal',
             nombre: 'Personal',
-            icono: <AiFillHome />
+            icono: <BsFillPeopleFill />
         },
         {
             id: 5,
@@ -41,7 +41,7 @@ const Enlaces = () => {
             id: 6,
             ruta: '/servicios',
             nombre: 'Servicios',
-            icono: <AiFillHome />
+            icono: <MdHomeRepairService />
         }
     ]
 

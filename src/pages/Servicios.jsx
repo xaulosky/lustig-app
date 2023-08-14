@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 import { notificaciones } from "../helpers/Notificaciones"
 import { BiDownArrow } from "react-icons/bi"
 import { Tooltip } from '@chakra-ui/react'
-import { set } from "react-hook-form"
+import { get, set } from "react-hook-form"
 import apiServicios from "../api/apiServicios"
 import AgregarServicio from "../componets/dashboard/servicios/AgregarServicio"
 import { AiFillDelete } from "react-icons/ai"
@@ -69,11 +69,36 @@ const Servicios = () => {
                 selector: "descripcion",
                 cell: (row) => {
                     return (
-                        <Editable defaultValue={
-                            row.descripcion === null ? "Sin descripción" : row.descripcion
-                        } style={{
-                            minWidth: "200px",
-                        }}>
+
+                        <Editable onChange={(value) => {
+                            console.log(value)
+                        }} onSubmit={(value, previousValue) => {
+                            console.log(previousValue)
+                            if (value.length > 0) {
+                                apiServicios.updateServicio({
+                                    ...row,
+                                    descripcion: value
+                                }).then((res) => {
+                                    getData()
+                                    notificaciones.success("Descripción actualizada")
+                                }).catch((err) => {
+                                    getData()
+                                    notificaciones.error(err)
+                                })
+                            }
+                            else {
+                                notificaciones.error("La descripción no puede estar vacía")
+                            }
+                        }}
+                            defaultValue={
+                                row.descripcion === null ? "Sin descripción" : row.descripcion
+                            } style={{
+                                minWidth: "200px",
+                                maxWidth: "300px",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                whiteSpace: "nowrap"
+                            }}>
                             <EditablePreview />
                             <EditableInput />
                         </Editable>

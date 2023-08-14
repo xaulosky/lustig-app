@@ -99,7 +99,7 @@ const Personal = () => {
             <Flex justifyContent="space-between" alignItems="center">
                 <Heading>Personal</Heading>
                 {/* <AgregarEvento /> */}
-
+                
             </Flex>
             <br />
             <Tabla

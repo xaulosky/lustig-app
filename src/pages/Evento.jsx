@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import apiEventos from "../api/apiEventos"
-import { Box, Button, Card, CardBody, CardHeader, Flex, Grid, GridItem, Heading } from "@chakra-ui/react"
+import { Box, Button, Card, CardBody, CardHeader, Checkbox, Flex, Grid, GridItem, Heading, Stack } from "@chakra-ui/react"
 
 import { MapContainer } from 'react-leaflet/MapContainer'
 import { TileLayer } from 'react-leaflet/TileLayer'
@@ -88,29 +88,6 @@ const Evento = () => {
                             <b>Estado:</b> {data.estado_evento}
                         </CardBody>
                     </Card>
-                </GridItem>
-                <GridItem colSpan={{
-                    base: 6,
-                    lg: 4
-
-                }}>
-                    <Card>
-                        <CardBody>
-                            <Flex justifyContent="space-between" alignItems="center">
-                                <Heading size="md">Cronograma</Heading>
-                                <Button size="sm" onClick={() => { setEditarCronograma(!editarCronograma) }} > Modificar Cronograma</Button>
-                            </Flex>
-                            <br />
-                            {
-                                editarCronograma ? <EditarCronograma id={id} cronograma={cronograma} setCronograma={setCronograma} setEditarCronograma={setEditarCronograma} /> : <div dangerouslySetInnerHTML={{ __html: cronograma }} />
-                            }
-                        </CardBody>
-                    </Card>
-                </GridItem>
-                <GridItem colSpan={{
-                    base: 6,
-                    lg: 2
-                }}>
                     <Card >
                         {
                             lat && lon ?
@@ -131,6 +108,54 @@ const Evento = () => {
                                 </MapContainer> : null
                         }
                     </Card>
+                </GridItem>
+                <GridItem colSpan={{
+                    base: 6,
+                    lg: 2
+
+                }}>
+                    <Card>
+                        <CardBody>
+                            <Flex justifyContent="space-between" alignItems="center">
+                                <Heading size="md">Cronograma</Heading>
+                                <Button size="sm" onClick={() => { setEditarCronograma(!editarCronograma) }} > Modificar Cronograma</Button>
+                            </Flex>
+                            <br />
+                            {
+                                editarCronograma ? <EditarCronograma id={id} cronograma={cronograma} setCronograma={setCronograma} setEditarCronograma={setEditarCronograma} /> : <div dangerouslySetInnerHTML={{ __html: cronograma }} />
+                            }
+                        </CardBody>
+                    </Card>
+                </GridItem>
+                <GridItem colSpan={{
+                    base: 6,
+                    lg: 2
+                }}>
+                    <Card>
+                        <CardBody>
+                            <Flex justifyContent="space-between" alignItems="center">
+                                <Heading size="md">Servicios</Heading>
+                                <Button size="sm"> Modificar Servicios</Button>
+                            </Flex>
+
+                            <br />
+                            {/* checkbox services */}
+                            <Stack spacing={5} direction='column'>
+                                <Checkbox colorScheme='red' defaultChecked>
+                                    Servicio 1
+                                </Checkbox>
+                                <Checkbox colorScheme='red' defaultChecked>
+                                    Servicio 2
+                                </Checkbox>
+                                <Checkbox colorScheme='red' defaultChecked>
+                                    Servicio 2
+                                </Checkbox>
+                            </Stack>
+
+
+                        </CardBody>
+                    </Card>
+
                 </GridItem>
 
             </Grid>
