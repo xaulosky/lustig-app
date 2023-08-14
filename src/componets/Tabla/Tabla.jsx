@@ -16,6 +16,9 @@ const Tabla = ({ data, columnas, noData, cargando, click, estilos }) => {
       <DataTable
         columns={columnas}
         data={data}
+        loadingComponent={< Box sx={{ m: '2rem' }} >
+          <Spinner />
+        </Box >}
         progressComponent={<Progress size='xs' isIndeterminate />}
         direction="auto"
         onRowClicked={click}
