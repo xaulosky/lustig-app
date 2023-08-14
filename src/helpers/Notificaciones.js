@@ -51,7 +51,7 @@ export const notificaciones = {
       title: titulo,
       text: mensaje,
       showCancelButton: true,
-      confirmButtonColor: "#161616",
+      confirmButtonColor: "#3182ce",
       cancelButtonColor: "#cc0000",
     });
     return isConfirmed;

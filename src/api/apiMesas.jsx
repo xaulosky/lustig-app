@@ -20,7 +20,7 @@ export default {
         })
     },
     getMesa: (id) => {
-        return instance.get(`/eventos/mesas/buscarId/`, {
+        return instance.get(`/eventos/mesas/buscarId`, {
             params: {
                 id: id
             }
@@ -41,7 +41,7 @@ export default {
     },
     updateEstadoMesa: (idMesa, idEstado) => {
         return instance.put('/eventos/mesas/estado', {
-            id_mesa: idMesa,
+            id: idMesa,
             id_estado_mesa_evento: idEstado
         })
     },
