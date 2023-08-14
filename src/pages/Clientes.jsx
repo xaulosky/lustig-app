@@ -13,6 +13,10 @@ import { BiDownArrow } from "react-icons/bi"
 import { Tooltip } from '@chakra-ui/react'
 import { set } from "react-hook-form"
 import apiClientes from "../api/apiClientes"
+import AgregarCliente from "../componets/clientes/AgregarCliente"
+import EliminarCliente from "../componets/clientes/EliminarCliente"
+import EditarCliente from "../componets/clientes/EditarCliente"
+import VerClienteModal from "../componets/clientes/VerClienteModal"
 
 const Clientes = () => {
 
@@ -35,18 +39,24 @@ const Clientes = () => {
             {
                 name: "Rut",
                 selector: "rut"
+            },
+            {
+                name: "Telefono",
+                selector: "telefono"
 
+            },
+            {
+                name: "Direccion",
+                selector: "direccion"
             },
             {
                 name: "Acciones",
                 cell: (row) => {
                     return (
                         <HStack>
-                            <EditarEvento row={row} />
-                            <Link to={`/evento/${row.id}`} >
-                                <GrView className="cursor-pointer text-lg" />
-                            </Link>
-                            <EliminarEvento id={row.id} actualizar={getData} />
+                            <EditarCliente row={row} actualizar={getData} />
+                            <VerClienteModal row={row} />
+                            <EliminarCliente id={row.id} actualizar={getData} />
                         </HStack>
                     )
                 },
@@ -86,7 +96,7 @@ const Clientes = () => {
                 <Heading size={"sm"} className="p-1" >Agregar Cliente</Heading>
                 <Card>
                     <CardBody>
-                        <AgregarEvento actualizar={getData} />
+                        <AgregarCliente actualizar={getData} />
                     </CardBody>
                 </Card>
             </GridItem>
@@ -103,13 +113,11 @@ const Clientes = () => {
                     <Input w="50%" placeholder="Buscar" onChange={
                         (e) => {
                             if (e.target.value.length > 0) {
-                                apiEventos.getEventos().then((res) => {
-                                    setData(res.data.filter((evento) => {
-                                        return evento.nombre.toLowerCase().includes(e.target.value.toLowerCase())
-                                            || evento.cliente_nombre.toLowerCase().includes(e.target.value.toLowerCase())
-                                            || evento.direccion.toLowerCase().includes(e.target.value.toLowerCase())
-                                            || evento.cliente_rut.toLowerCase().includes(e.target.value.toLowerCase())
-
+                                apiClientes.getClientes().then((res) => {
+                                    setData(res.data.filter((cliente) => {
+                                        return cliente.nombre.toLowerCase().includes(e.target.value.toLowerCase())
+                                            || cliente.apellido.toLowerCase().includes(e.target.value.toLowerCase())
+                                            || cliente.rut.toLowerCase().includes(e.target.value.toLowerCase())
                                     }))
                                     if (res.data.length === 0) {
                                         notificaciones.error("No hay eventos")

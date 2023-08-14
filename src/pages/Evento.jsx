@@ -99,6 +99,26 @@ const Evento = () => {
                                         <b>Tipo:</b> {data.tipo_evento}
                                         <br />
                                         <b>Estado:</b> {data.estado_evento}
+                                        <Card >
+                                            {
+                                                lat && lon ?
+                                                    <MapContainer center={[lat, lon]} zoom={15} scrollWheelZoom={false} style={{
+                                                        height: "300px",
+                                                    }}  >
+                                                        <TileLayer
+                                                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                                        />
+                                                        <Circle center={[lat, lon]} radius={50}>
+                                                            <Popup>
+                                                                {
+                                                                    data.direccion
+                                                                }
+                                                            </Popup>
+                                                        </Circle>
+                                                    </MapContainer> : null
+                                            }
+                                        </Card>
                                     </CardBody>
                                 </Card>
                             </GridItem>
@@ -124,26 +144,7 @@ const Evento = () => {
                                 base: 6,
                                 lg: 2
                             }}>
-                                <Card >
-                                    {
-                                        lat && lon ?
-                                            <MapContainer center={[lat, lon]} zoom={15} scrollWheelZoom={false} style={{
-                                                height: "300px",
-                                            }}  >
-                                                <TileLayer
-                                                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                                                />
-                                                <Circle center={[lat, lon]} radius={50}>
-                                                    <Popup>
-                                                        {
-                                                            data.direccion
-                                                        }
-                                                    </Popup>
-                                                </Circle>
-                                            </MapContainer> : null
-                                    }
-                                </Card>
+
                             </GridItem>
 
                         </Grid>
