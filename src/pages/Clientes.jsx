@@ -28,6 +28,31 @@ const Clientes = () => {
                 name: "Nombre",
                 selector: "nombre"
             },
+            {
+                name: "Apellido",
+                selector: "apellido"
+            },
+            {
+                name: "Rut",
+                selector: "rut"
+
+            },
+            {
+                name: "Acciones",
+                cell: (row) => {
+                    return (
+                        <HStack>
+                            <EditarEvento row={row} />
+                            <Link to={`/evento/${row.id}`} >
+                                <GrView className="cursor-pointer text-lg" />
+                            </Link>
+                            <EliminarEvento id={row.id} actualizar={getData} />
+                        </HStack>
+                    )
+                },
+                right: true
+            }
+
         ]
     }, [])
 
@@ -58,7 +83,7 @@ const Clientes = () => {
                     lg: 2,
                 }
             }>
-                <Heading size={"sm"} className="p-1" >Agregar Evento</Heading>
+                <Heading size={"sm"} className="p-1" >Agregar Cliente</Heading>
                 <Card>
                     <CardBody>
                         <AgregarEvento actualizar={getData} />
@@ -74,7 +99,7 @@ const Clientes = () => {
                 }
             }>
                 <Flex justifyContent="space-between" alignItems="center">
-                    <Heading>Eventos</Heading>
+                    <Heading>Clientes</Heading>
                     <Input w="50%" placeholder="Buscar" onChange={
                         (e) => {
                             if (e.target.value.length > 0) {
