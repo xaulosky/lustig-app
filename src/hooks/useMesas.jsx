@@ -33,12 +33,13 @@ const useMesas = (id, actualizar) => {
         })
     }, [getMesas, actualizar])
 
-    const eliminarMesa = useCallback((id) => {
+    const eliminarMesa = useCallback((id, then) => {
         setActualizando(true)
         apiMesas.deleteMesa(id).then((res) => {
             getMesas()
             notificaciones.success('Mesa eliminada')
             actualizar && actualizar()
+            then && then()
         }).catch((err) => {
             notificaciones.error('Error al eliminar mesa')
         }).finally(() => {

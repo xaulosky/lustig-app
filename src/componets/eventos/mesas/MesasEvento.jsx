@@ -8,10 +8,11 @@ import { useState } from 'react'
 import MesaDetalles from './MesaDetalles'
 import MesaResumen from './MesaResumen'
 import AgregarMesa from './AgregarMesa'
+import { notificaciones } from '../../../helpers/Notificaciones'
 
 const MesasEvento = ({ id }) => {
 
-    const { mesas, cargandoMesas, actualizarMesas } = useMesas(id)
+    const { mesas, cargandoMesas, actualizarMesas, eliminarMesa } = useMesas(id)
 
     const [mesaAMostar, setMesaAMostar] = useState(null)
     const [agregandoMesa, setAgregandoMesa] = useState(false)
@@ -46,18 +47,21 @@ const MesasEvento = ({ id }) => {
                                     onClick={() => setMesaAMostar(null)}>
                                     Volver
                                 </Button >
-                                <Button
+                                {/* <Button
                                     display={'inline'}
                                     colorScheme="green"
                                     onClick={() => setMesaAMostar(null)}>
                                     Editar
-                                </Button >
+                                </Button > */}
                                 <Button
                                     justifySelf={'flex-end'}
                                     alignSelf={'end'}
                                     display={'inline'}
                                     colorScheme="red"
-                                    onClick={() => setMesaAMostar(null)}>
+                                    onClick={async () => {
+                                        if (!await notificaciones.confirmacion('¿Eliminar mesa?')) return
+                                        eliminarMesa(mesaAMostar.id, () => { setMesaAMostar(null) })
+                                    }}>
                                     Eliminar
                                 </Button >
                             </ButtonGroup>
@@ -84,7 +88,7 @@ const MesasEvento = ({ id }) => {
                                         </GridItem>
 
                                         <GridItem colSpan={3}>
-                                            <SimpleGrid columns={4} gap={5}>
+                                            <SimpleGrid columns={5} gap={3}>
                                                 {cargandoMesas ? <Spinner /> : mesas.map((mesa) => (
                                                     <GridItem key={mesa.id}>
                                                         <MesaResumen

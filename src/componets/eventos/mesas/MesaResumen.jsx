@@ -7,8 +7,9 @@ const MesaResumen = ({ mesa, actualizar, onClick, seleccionada, seleccionable = 
     return (
         <Card sx={{
             outline: seleccionada ? '4px solid #3182ce' : 'none',
+            transition: 'all .1s ease-in-out',
             '&:hover': seleccionable && {
-                boxShadow: '0 0 1rem 0 rgba(136,152,170,.15)!important',
+                boxShadow: '0 0 1rem 0 rgba(136,152,170,.35)!important',
                 cursor: seleccionable ? 'pointer' : 'default'
             }
 
@@ -16,7 +17,7 @@ const MesaResumen = ({ mesa, actualizar, onClick, seleccionada, seleccionable = 
             onClick={seleccionable ? () => onClick(mesa) : undefined}
         >
             <CardBody pt={3}>
-                <Image borderRadius={'6px'} src={
+                <Image pb={1} borderRadius={'6px'} src={
                     mesa.largo && !mesa.ancho ?
                         'https://w7.pngwing.com/pngs/538/436/png-transparent-computer-icons-circle-circle-black-desktop-wallpaper-auto-part.png'
                         : mesa.largo == mesa.ancho ?
@@ -31,11 +32,8 @@ const MesaResumen = ({ mesa, actualizar, onClick, seleccionada, seleccionable = 
                         'Cuadrada'
                         : 'Rectangular'
                 }</p>
-
-            </CardBody>
-            <CardFooter pt={0} display={'flex'} alignItems={'center'}>
                 {!sinEstado && <Menu>
-                    <MenuButton as={Button} size={'sm'} colorScheme='green' onClick={(e) => {
+                    <MenuButton as={Button} size={'sm'} colorScheme='green' mt={1} onClick={(e) => {
                         e.stopPropagation()
                     }}>
                         <Heading size={'sm'}>{mesa?.estado.nombre}</Heading>
@@ -79,7 +77,8 @@ const MesaResumen = ({ mesa, actualizar, onClick, seleccionada, seleccionable = 
                 <Stat>
                     <StatNumber textAlign={'end'} fontSize={'md'} color={'green'}>{mesa.invitados.length}/{mesa.cantidad_personas}</StatNumber>
                 </Stat>
-            </CardFooter>
+
+            </CardBody>
         </Card>
     )
 }
