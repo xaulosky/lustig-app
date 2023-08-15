@@ -56,7 +56,7 @@ const AgregarMesa = ({ evento, volver, edicion }) => {
                         </Heading>
                     </MenuButton>
                     <MenuList>
-                        <MenuOptionGroup defaultValue={1} onChange={
+                        <MenuOptionGroup onChange={
                             (value) => {
                                 setTipoMesa(value)
                             }
