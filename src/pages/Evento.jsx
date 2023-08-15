@@ -14,6 +14,8 @@ import 'react-quill/dist/quill.snow.css';
 import MesasEvento from "../componets/eventos/mesas/MesasEvento"
 import ListaInvitados from "../componets/eventos/invitados/ListaInvitados"
 import InventarioEvento from "../componets/eventos/inventario/InventarioEvento"
+import { separadorDeMiles } from "../helpers/separadorDeMiles"
+import EditarEvento from "../componets/eventos/EditarEvento"
 
 
 const Evento = () => {
@@ -24,6 +26,10 @@ const Evento = () => {
     const [data, setData] = useState([])
     const [lat, setLat] = useState()
     const [lon, setLon] = useState()
+
+
+    const [modificarDatos, setModificarDatos] = useState(false)
+
 
     const [cronograma, setCronograma] = useState('')
 
@@ -46,6 +52,13 @@ const Evento = () => {
     }, [id])
 
 
+    const editEvento = () => {
+        setModificarDatos(!modificarDatos)
+        apiEventos.editEvento(id, data).then((res) => {
+            console.log(res);
+        })
+    }
+
     useEffect(() => {
         apiEventos.getCronograma(id).then((res) => {
             setCronograma(res.data.cronograma)
@@ -59,7 +72,6 @@ const Evento = () => {
 
     return (
         <>
-
             <Heading>Evento {data.nombre}</Heading>
             <br />
             <Tabs isLazy>
@@ -70,7 +82,6 @@ const Evento = () => {
                     <Tab>Presupuesto</Tab>
                     <Tab>Inventario</Tab>
                     <Tab>Personal</Tab>
-
                 </TabList>
                 <TabPanels>
                     <TabPanel>
@@ -81,25 +92,31 @@ const Evento = () => {
                             }} >
                                 <Card >
                                     <CardBody>
-                                        <Heading size="md">Datos generales</Heading>
-                                        <br />
-                                        <b>Evento:</b> {data.nombre}
-                                        <br />
-                                        <b>Fecha:</b> {new Date(data.fecha).toLocaleDateString()}
-                                        <br />
-                                        <b>Dirección:</b> {data.direccion}
-                                        <br />
-                                        <b>Cliente:</b> {data.cliente_nombre} {data.cliente_apellido}
-                                        <br />
-                                        <b>Rut:</b> {/* format rut */} {data.cliente_rut}
-                                        <br />
-                                        <b>Presupuesto:</b> {data.presupuesto}
-                                        <br />
-                                        <b>Descripción:</b> {data.descripcion}
-                                        <br />
-                                        <b>Tipo:</b> {data.tipo_evento}
-                                        <br />
-                                        <b>Estado:</b> {data.estado_evento}
+                                        <Flex justifyContent="space-between" alignItems="center">
+                                            <Heading size="md">Datos generales</Heading>
+                                            <EditarEvento row={data} actualizar={getData} />
+                                        </Flex>
+                                        <>
+                                            <br />
+                                            <b>Evento:</b> {data.nombre}
+                                            <br />
+                                            <b>Fecha:</b> {new Date(data.fecha).toLocaleDateString()}
+                                            <br />
+                                            <b>Dirección:</b> {data.direccion}
+                                            <br />
+                                            <b>Cliente:</b> {data.cliente_nombre} {data.cliente_apellido}
+                                            <br />
+                                            <b>Rut:</b> {/* format rut */} {data.cliente_rut}
+                                            <br />
+                                            <b>Presupuesto:</b> ${separadorDeMiles(data.presupuesto)}
+                                            <br />
+                                            <b>Descripción:</b> {data.descripcion}
+                                            <br />
+                                            <b>Tipo:</b> {data.tipo_evento}
+                                            <br />
+                                            <b>Estado:</b> {data.estado_evento}
+                                        </>
+
                                         <Card >
                                             {
                                                 lat && lon ?
