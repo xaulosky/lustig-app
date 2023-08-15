@@ -7,7 +7,7 @@ import { GrFormAdd } from 'react-icons/gr'
 import { set, useForm } from "react-hook-form"
 import useClientes from "../../hooks/useClientes"
 import { notificaciones } from "../../helpers/Notificaciones"
-import AgregarCliente from "../clientes/AgregarCliente"
+import AgregarCliente from "../clientes/AgregarClienteModal"
 import apiClientes from "../../api/apiClientes"
 
 const AgregarEvento = ({ actualizar }) => {
