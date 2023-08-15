@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, Fade, IconButton } from '@chakra-ui/react'
+import { Box, Button, ButtonGroup, Card, CardBody, Fade, IconButton } from '@chakra-ui/react'
 import useInvitados from '../../../hooks/useInvitados'
 import Tabla from '../../Tabla/Tabla'
 import PropTypes from 'prop-types'
@@ -80,13 +80,17 @@ const ListaInvitados = ({ evento }) => {
                     setAgregando(false)
                     setEdicion(null)
                 }}>Volver</Button>
-                <AgregarInvitado evento={evento}
-                    edicion={edicion}
-                    volver={() => {
-                        setEdicion(null)
-                        actualizarInvitados()
-                        setAgregando(false)
-                    }} />
+                <Card bgColor={'gray.100'}>
+                    <CardBody>
+                        <AgregarInvitado evento={evento}
+                            edicion={edicion}
+                            volver={() => {
+                                setEdicion(null)
+                                actualizarInvitados()
+                                setAgregando(false)
+                            }} />
+                    </CardBody>
+                </Card>
             </Fade>}
         </>
     )
