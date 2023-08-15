@@ -14,15 +14,13 @@ const DashboardRoutes = () => {
     return (
         <Routes>
             <Route path="/" element={< Layout />}>
-                <Route path="/" element={<Home />} />
-                <Route path="/escritorio" element={<Escritorio />} />
+                <Route path="/" element={<Escritorio />} />
                 <Route path="/clientes" element={<Clientes />} />
                 <Route path="/eventos" element={<Eventos />} />
                 <Route path='/evento/:id' element={<Evento />} />
                 <Route path="/personal" element={<Personal />} />
                 <Route path="/inventario" element={<Inventario />} />
                 <Route path="/servicios" element={<Servicios />} />
-                <Route path='/escritorio' element={<Escritorio />} />
 
 
 

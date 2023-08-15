@@ -96,7 +96,7 @@ const AgregarCliente = ({ actualizar }) => {
                         name="rut"
                         id="rut"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                        placeholder="Ubicación del cliente"
+                        placeholder="Rut del cliente"
                         {
                         ...register("rut", {
                             required: true,
@@ -146,7 +146,7 @@ const AgregarCliente = ({ actualizar }) => {
                 </div>
 
             </div>
-            <Button w="100%"   mr={3} type="submit" form="formulario_cliente"  isLoading={enviando}>
+            <Button w="100%" mr={3} type="submit" form="formulario_cliente" isLoading={enviando}>
                 Crear Cliente
             </Button>
         </form>

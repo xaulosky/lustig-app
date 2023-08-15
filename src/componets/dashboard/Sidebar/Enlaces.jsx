@@ -10,7 +10,7 @@ const Enlaces = () => {
     const enlaces = [
         {
             id: 1,
-            ruta: '/escritorio',
+            ruta: '/',
             nombre: 'Escritorio',
             icono: <AiFillHome />
         },

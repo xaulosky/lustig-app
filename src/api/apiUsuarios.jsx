@@ -15,4 +15,8 @@ export default {
   deleteUsuarios: (id) => {
     return instance.delete("usuarios", { data: { id } });
   },
+  login: (usuario) => {
+    return instance.post("/login", usuario);
+  }
+
 };

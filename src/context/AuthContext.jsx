@@ -5,7 +5,7 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
 
-    const login = JSON.parse(localStorage.getItem('auth')) || { logged: true };
+    const login = JSON.parse(localStorage.getItem('auth')) || { logged: false };
 
     const [auth, setAuth] = useState(login);
 

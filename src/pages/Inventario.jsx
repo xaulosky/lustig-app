@@ -1,5 +1,5 @@
 import Tabla from "../componets/Tabla/Tabla"
-import { Box, Flex, Heading } from "@chakra-ui/react"
+import { Box, Card, CardBody, Flex, Grid, GridItem, Heading, Input } from "@chakra-ui/react"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import apiInventario from "../api/apiInventario"
 import EditarCantidad from "../componets/inventario/acciones/EditarCantidad"
@@ -7,6 +7,8 @@ import InputEditable from "../componets/generales/InputEditable"
 import { notificaciones } from "../helpers/Notificaciones"
 import { AiFillDelete } from "react-icons/ai"
 import AgregarObjetoInventario from "../componets/inventario/acciones/AgregarObjeto"
+import AgregarObjeto from "../componets/inventario/acciones/AgregarObjeto"
+import EliminarObjeto from "../componets/inventario/acciones/EliminarObjeto"
 const Inventario = () => {
 
   const [data, setData] = useState([])
@@ -27,61 +29,23 @@ const Inventario = () => {
     return [
       {
         name: "Nombre",
-        selector: row => (<Flex alignItems="center" fontSize={'large'}>
-          <p className="ml-2 text-gray-600">{row.nombre}</p>
-        </Flex>)
+        selector: row => row.nombre
       },
       {
         name: "Cantidad",
-        selector: row => (
-          <EditarCantidad objetoInventario={row} />
-        )
+        selector: row => row.cantidad
       },
       {
         name: "Categoría",
-        selector: row => (
-          <InputEditable objeto={row} campo={"tipo"} placeholder={'-'} callback={async (objeto) => {
-            await apiInventario.updateObjetoInventario(objeto).then(() => {
-              setCargando(true)
-              notificaciones.success("Categoría editada")
-              getData()
-            }).catch((err) => {
-              notificaciones.error(err.data?.message || "Error al editar categoría")
-            })
-          }} />
-        )
+        selector: row => row.categoria
       },
       {
         name: "Descripción",
-        selector: row => (
-          <InputEditable objeto={row} placeholder={'-'} campo={"descripcion"} callback={async (objeto) => {
-            await apiInventario.updateObjetoInventario(objeto).then(() => {
-              notificaciones.success("Descripción editada")
-              getData()
-            }).catch((err) => {
-              notificaciones.error(err.data?.message || "Error al editar descripción")
-            })
-          }} />
-        )
+        selector: row => row.descripcion
       },
       {
         name: "Acciones",
-        selector: row => (
-          <Flex alignItems="center" pr={2}>
-            {/* <EditarObjetoInventario objetoInventario={row} /> */}
-            <AiFillDelete onClick={async () => {
-              const confirmacion = await notificaciones.confirmacion("¿Está seguro que desea eliminar este objeto del inventario?")
-              if (!confirmacion) return
-              apiInventario.deleteObjetoInventario(row.id).then(() => {
-                notificaciones.success("Eliminado")
-                getData()
-              }).catch((err) => {
-                notificaciones.error(err.data?.message || "Error al eliminar")
-              })
-            }} className="ml-2 text-gray-500 cursor-pointer hover:text-red-600" size={28} />
-
-          </Flex>
-        ),
+        selector: row => <EliminarObjeto id={row.id} actualizar={getData} />,
         right: true,
       },
       {
@@ -96,20 +60,60 @@ const Inventario = () => {
   }, [getData])
 
   return (
-    <Box  >
-      <Flex justifyContent="space-between" alignItems="center" direction={'row'}>
-        <Heading>Inventario</Heading>
-        <AgregarObjetoInventario actualizar={getData} />
-      </Flex>
-      <br />
 
-      <Tabla
-        data={data}
-        columnas={columns}
-        titulo={"Inventario"}
-        cargando={cargando}
-      />
-    </Box>
+    <Grid templateColumns={"repeat(6, 1fr)"} gap={6}>
+      <GridItem colSpan={
+        {
+          base: 6,
+          md: 6,
+          lg: 2,
+
+        }
+      }>
+        <Heading size="sm" className="p-1" >Agregar Objeto</Heading>
+        <Card>
+          <CardBody>
+            <AgregarObjeto actualizar={getData} />
+          </CardBody>
+        </Card>
+      </GridItem>
+
+      <GridItem colSpan={
+        {
+          base: 6,
+          md: 6,
+          lg: 4,
+        }
+      }>
+        <Flex justifyContent="space-between" alignItems="center">
+          <Heading>Inventario</Heading>
+          <Input w="50%" placeholder="Buscar" onChange={
+            (e) => {
+              if (e.target.value.length > 0) {
+                apiInventario.getInventario().then((res) => {
+                   setData(res.data.filter((inventario) => {
+                     return inventario.nombre.toLowerCase().includes(e.target.value.toLowerCase())
+                   }))
+                   if (res.data.length === 0) {
+                     notificaciones.error("No hay servicios")
+                   }
+                }
+                )
+              }
+            }
+          }  />
+        </Flex>
+        <br />
+        <Card>
+          <Tabla
+            data={data}
+            columnas={columns}
+            titulo={"Servicios"}
+          />
+        </Card>
+      </GridItem>
+    </Grid>
+
   )
 }
 

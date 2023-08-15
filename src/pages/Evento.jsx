@@ -27,9 +27,9 @@ const Evento = () => {
     const [lat, setLat] = useState()
     const [lon, setLon] = useState()
 
+    const [recargarMapa, setRecargarMapa] = useState(0)
 
     const [modificarDatos, setModificarDatos] = useState(false)
-
 
     const [cronograma, setCronograma] = useState('')
 
@@ -47,6 +47,7 @@ const Evento = () => {
             })
         }).finally(() => {
             setCargando(false)
+            setRecargarMapa(recargarMapa ? 0 : 1)
         }
         )
     }, [id])
@@ -56,6 +57,7 @@ const Evento = () => {
         setModificarDatos(!modificarDatos)
         apiEventos.editEvento(id, data).then((res) => {
             console.log(res);
+            getData()
         })
     }
 
@@ -120,7 +122,7 @@ const Evento = () => {
                                         <Card >
                                             {
                                                 lat && lon ?
-                                                    <MapContainer center={[lat, lon]} zoom={15} scrollWheelZoom={false} style={{
+                                                    <MapContainer key={recargarMapa} center={[lat, lon]} zoom={15} scrollWheelZoom={false} style={{
                                                         height: "300px",
                                                     }}  >
                                                         <TileLayer

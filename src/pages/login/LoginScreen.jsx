@@ -1,13 +1,54 @@
+import { useForm } from "react-hook-form"
+import apiClientes from "../../api/apiClientes"
+import apiUsuarios from "../../api/apiUsuarios"
+import { useContext } from "react"
+import AuthContext from "../../context/AuthContext"
 
 
 const LoginScreen = () => {
 
 
-    
+    const { auth, setAuth } = useContext(AuthContext)
 
-    const login = (e) => {
-        e.preventDefault()
-        console.log('login')
+
+
+
+    const {
+        register,
+        handleSubmit,
+        watch,
+        reset,
+        formState: { errors }
+    } = useForm()
+
+    const login = (data) => {
+        console.log(data)
+        apiUsuarios.login(data).then(res => {
+            console.log(res)
+            if (res.status === 200) {
+                setAuth({
+                    logged: true,
+                    token: res.data.token,
+                    usuario: res.data.usuario,
+                    tipo_usuario: res.data.tipo_usuario
+                })
+                /* SETLOCAL STORAGE */
+                localStorage.setItem('auth', JSON.stringify({
+                    logged: true,
+                    token: res.data.token,
+                    usuario: res.data.usuario,
+                    tipo_usuario: res.data.tipo_usuario
+                })
+                )
+            }
+        }).catch(err => {
+            console.log(err)
+        }
+        ).finally(() => {
+            reset()
+        }
+        )
+
     }
 
 
@@ -25,7 +66,7 @@ const LoginScreen = () => {
                         <h1 className="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                             Iniciar Sesión
                         </h1>
-                        <form className="space-y-4 md:space-y-6" action="#">
+                        <form className="space-y-4 md:space-y-6" action="#" onSubmit={handleSubmit(login)}>
                             <div>
                                 <label
                                     htmlFor="email"
@@ -34,12 +75,16 @@ const LoginScreen = () => {
                                     Correo
                                 </label>
                                 <input
-                                    type="email"
                                     name="email"
                                     id="email"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="nombre@email.com"
                                     required=""
+                                    {
+                                    ...register("email", {
+                                        required: true,
+                                    })
+                                    }
                                 />
                             </div>
                             <div>
@@ -56,6 +101,11 @@ const LoginScreen = () => {
                                     placeholder="••••••••"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     required=""
+                                    {
+                                    ...register("password", {
+                                        required: true,
+                                    })
+                                    }
                                 />
                             </div>
                             <div className="flex items-center justify-between">

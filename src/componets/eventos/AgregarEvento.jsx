@@ -9,6 +9,7 @@ import useClientes from "../../hooks/useClientes"
 import { notificaciones } from "../../helpers/Notificaciones"
 import AgregarCliente from "../clientes/AgregarClienteModal"
 import apiClientes from "../../api/apiClientes"
+import ClienteSelector from "../clientes/ClienteSelector"
 
 const AgregarEvento = ({ actualizar }) => {
     const [isOpen, setIsOpen] = useState(false)
@@ -18,6 +19,8 @@ const AgregarEvento = ({ actualizar }) => {
     const [clientes, setClientes] = useState([])
 
     const [enviando, setEnviando] = useState(false)
+    const [idCliente, setIdCliente] = useState(null)
+
 
     const {
         register,
@@ -72,18 +75,21 @@ const AgregarEvento = ({ actualizar }) => {
                                     borderTopRightRadius: "0",
                                     borderBottomRightRadius: "0"
                                 }}
-                                {
+                                onChange={(e) => {
+                                    console.log(e.target.value)
+                                }}
+                            /*  {
                                 ...register("id_cliente", {
                                     required: true,
                                 })
-                                }
+                            } */
 
                             />
                             <datalist id="clientes">
                                 {
                                     clientes.map((cliente) => {
                                         return (
-                                            <option key={cliente.id} value={cliente.id}>{cliente.nombre} {cliente.apellido} {cliente.rut} </option>
+                                            <option key={cliente.id} value={cliente.nombre}>{cliente.nombre} {cliente.apellido} {cliente.rut} </option>
                                         )
                                     })
                                 }
