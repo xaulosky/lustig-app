@@ -13,6 +13,7 @@ const Personal = () => {
     const [cargandoAreas, setCargandoAreas] = useState(false)
 
     const editar = async (data) => {
+        setCargando(true)
         await apiPersonal.updatePersonal(data).then(() => {
             notificaciones.success("Editado correctamente")
             getData()
@@ -73,6 +74,7 @@ const Personal = () => {
 
 
     const getData = useCallback(async () => {
+        setCargando(true)
         apiPersonal.getAreas().then((res) => {
             setAreas(res.data)
         }).catch((err) => {
@@ -99,14 +101,14 @@ const Personal = () => {
             <Flex justifyContent="space-between" alignItems="center">
                 <Heading>Personal</Heading>
                 {/* <AgregarEvento /> */}
-                
+
             </Flex>
             <br />
             <Tabla
                 data={data}
                 columnas={columns}
                 titulo={"Personal"}
-                cargando={cargando && cargandoAreas}
+                cargando={cargando}
             />
         </Box>
     )
