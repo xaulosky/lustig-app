@@ -13,6 +13,7 @@ import EditarCronograma from "../componets/eventos/EditarCronograma"
 import 'react-quill/dist/quill.snow.css';
 import MesasEvento from "../componets/eventos/mesas/MesasEvento"
 import ListaInvitados from "../componets/eventos/invitados/ListaInvitados"
+import InventarioEvento from "../componets/eventos/inventario/InventarioEvento"
 
 
 const Evento = () => {
@@ -158,7 +159,7 @@ const Evento = () => {
                         <p>Presupuesto</p>
                     </TabPanel>
                     <TabPanel>
-                        <p>Inventario</p>
+                        <InventarioEvento evento={id} />
                     </TabPanel>
                     <TabPanel>
                         <p>Personal</p>

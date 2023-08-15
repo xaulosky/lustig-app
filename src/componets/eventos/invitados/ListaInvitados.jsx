@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, Fade, Heading, IconButton } from '@chakra-ui/react'
+import { Box, Button, ButtonGroup, Fade, IconButton } from '@chakra-ui/react'
 import useInvitados from '../../../hooks/useInvitados'
 import Tabla from '../../Tabla/Tabla'
 import PropTypes from 'prop-types'
@@ -6,6 +6,7 @@ import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
 import { notificaciones } from '../../../helpers/Notificaciones'
 import { useState } from 'react'
 import AgregarInvitado from '../mesas/AgregarInvitado'
+
 const ListaInvitados = ({ evento }) => {
 
     const { invitados, cargando, eliminarInvitado, actualizarInvitados } = useInvitados(() => { }, evento)
@@ -59,22 +60,20 @@ const ListaInvitados = ({ evento }) => {
         <>
             <Fade unmountOnExit in={!agregando} exit={false}>
                 <Button mb={4} colorScheme="blue" onClick={() => { setAgregando(true) }}>Agregar Invitado</Button>
-                <Tabla
-                    click={(row) => {
-                        setEdicion(row)
-                        setAgregando(true)
-                    }}
-                    columnas={columas}
-                    cargando={cargando}
-                    noData={<Box p={20}>
-                        {
-                            cargando ?
-                                <Heading size={'md'}>Cargando...</Heading>
-                                : <Heading size={'md'}>No hay invitados</Heading>
-                        }
-                    </Box>}
-                    data={invitados}
-                />
+                {invitados.length ?
+                    <Tabla
+                        click={(row) => {
+                            setEdicion(row)
+                            setAgregando(true)
+                        }}
+                        columnas={columas}
+                        cargando={cargando}
+                        data={invitados}
+                    />
+                    : <Box mb={4}>
+                        {/* <Heading size="md">Invitados</Heading> */}
+                    </Box>
+                }
             </Fade>
             {agregando && <Fade unmountOnExit in={true} >
                 <Button mb={4} colorScheme="blue" onClick={() => {
