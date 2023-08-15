@@ -35,7 +35,7 @@ const Tabla = ({ data, columnas, noData, cargando, click, estilos }) => {
         /* selectableRowSelected={selectableRowSelected} */
         noDataComponent={noData ? noData :
           < Box sx={{ m: '2rem' }} >
-            <Spinner />
+            {data.length === 0 ? 'No hay datos' : ""}
           </Box >
         }
         paginationComponentOptions={paginationComponentOptions}
