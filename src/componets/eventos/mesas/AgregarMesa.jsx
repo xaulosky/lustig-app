@@ -16,15 +16,15 @@ const AgregarMesa = ({ evento, volver, edicion }) => {
 
     const onSubmit = (data) => {
         console.log(data)
-        const largo = data.largo && !data.ancho ?
+        const largo = tipoMesa == 1 ?
             1
-            : data.largo == data.ancho ?
+            : tipoMesa == 2 ?
                 1
                 : 2
 
-        const ancho = data.largo && !data.ancho ?
+        const ancho = tipoMesa == 1 ?
             null
-            : data.largo == data.ancho ?
+            : tipoMesa == 2 ?
                 1
                 : 1
 
