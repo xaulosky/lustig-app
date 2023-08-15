@@ -25,7 +25,12 @@ const MesaResumen = ({ mesa, actualizar, onClick, seleccionada, seleccionable = 
                 }
                     aspectRatio={'1/1'} objectFit={'cover'} w={'80%'} h={'auto'} m={'0 auto'} alt={'imagen'} />
                 <Text fontWeight={'bold'} color={'gray.600'}>{mesa.nombre}</Text>
-                <p>{mesa.largo || '-'} {mesa.ancho && 'x'} {mesa.ancho || ''}</p>
+                <p>{mesa.largo && !mesa.ancho ?
+                    'Redonda'
+                    : mesa.largo == mesa.ancho ?
+                        'Cuadrada'
+                        : 'Rectangular'
+                }</p>
 
             </CardBody>
             <CardFooter pt={0} display={'flex'} alignItems={'center'}>

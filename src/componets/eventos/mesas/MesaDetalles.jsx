@@ -82,8 +82,11 @@ const MesaDetalles = ({ mesa }) => {
                             <Heading size={'md'} color={'gray.800'} mb={5}>Detalles</Heading>
 
                             <Text fontWeight={'bold'} color={'gray.500'}>Capacidad Máxima: {data?.cantidad_personas}</Text>
-                            <Text fontWeight={'bold'} color={'gray.500'}>Largo: {data?.largo || "-"}</Text>
-                            <Text fontWeight={'bold'} color={'gray.500'}>Ancho: {data?.ancho || "-"}</Text>
+                            <Text fontWeight={'bold'} color={'gray.500'}>Tipo: {mesa.largo && !mesa.ancho ?
+                                'Redonda'
+                                : mesa.largo == mesa.ancho ?
+                                    'Cuadrada'
+                                    : 'Rectangular'}</Text>
                         </GridItem>
                         <GridItem colSpan={2}>
                             <Heading size={'md'} color={'gray.800'} pl={10} mb={3}>Invitados ({data?.invitados.length})</Heading>

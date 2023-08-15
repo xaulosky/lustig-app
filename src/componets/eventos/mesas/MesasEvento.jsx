@@ -1,5 +1,5 @@
 import {
-    Button, ButtonGroup, Flex, GridItem,
+    Button, ButtonGroup, Card, CardBody, Flex, GridItem,
     SimpleGrid, SlideFade, Spinner,
 } from '@chakra-ui/react'
 import useMesas from '../../../hooks/useMesas'
@@ -37,11 +37,6 @@ const MesasEvento = ({ id }) => {
             }
             {!agregandoMesa &&
                 <>
-                    <SlideFade in={!cargandoMesas && !mesaAMostar} unmountOnExit exit={false}>
-                        <Button colorScheme="blue"
-                            onClick={() => setAgregandoMesa(true)}
-                        >Agregar Mesa</Button>
-                    </SlideFade>
                     <Flex>
                         <SlideFade in={!cargandoMesas && mesaAMostar} unmountOnExit exit={false}>
                             <ButtonGroup>
@@ -76,16 +71,31 @@ const MesasEvento = ({ id }) => {
                                 </SlideFade >
                                 :
                                 <SlideFade in={!cargandoMesas}>
-                                    <SimpleGrid mt={5} columns={6} gap={5}>
-                                        {cargandoMesas ? <Spinner /> : mesas.map((mesa) => (
-                                            <GridItem key={mesa.id}>
-                                                <MesaResumen
-                                                    mesa={mesa}
-                                                    actualizar={actualizarMesas}
-                                                    onClick={setMesaAMostar}
-                                                />
-                                            </GridItem>
-                                        ))}
+                                    <SimpleGrid columns={4} gap={5}>
+                                        <GridItem colSpan={1}>
+                                            <Card>
+                                                <CardBody>
+                                                    <AgregarMesa evento={id} volver={() => {
+                                                        actualizarMesas()
+                                                        setAgregandoMesa(false)
+                                                    }} />
+                                                </CardBody>
+                                            </Card>
+                                        </GridItem>
+
+                                        <GridItem colSpan={3}>
+                                            <SimpleGrid columns={4} gap={5}>
+                                                {cargandoMesas ? <Spinner /> : mesas.map((mesa) => (
+                                                    <GridItem key={mesa.id}>
+                                                        <MesaResumen
+                                                            mesa={mesa}
+                                                            actualizar={actualizarMesas}
+                                                            onClick={setMesaAMostar}
+                                                        />
+                                                    </GridItem>
+                                                ))}
+                                            </SimpleGrid>
+                                        </GridItem>
                                     </SimpleGrid>
                                 </SlideFade>
                         }
