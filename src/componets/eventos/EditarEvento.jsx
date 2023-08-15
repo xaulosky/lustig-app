@@ -5,7 +5,7 @@ import { BiSolidEdit } from "react-icons/bi"
 import apiEventos from "../../api/apiEventos"
 import { notificaciones } from "../../helpers/Notificaciones"
 
-const EditarEvento = ({ row }) => {
+const EditarEvento = ({ row, actualizar }) => {
 
     const [isOpen, setIsOpen] = useState(false)
     const onCloseEditarEvento = () => { setIsOpen(false) }
@@ -35,6 +35,7 @@ const EditarEvento = ({ row }) => {
         ).finally(() => {
             setEnviando(false)
             onCloseEditarEvento()
+            actualizar()
         }
         )
 

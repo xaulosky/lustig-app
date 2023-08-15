@@ -7,10 +7,13 @@ import esLocale from '@fullcalendar/core/locales/es'
 import Swal from 'sweetalert2'
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin from "@fullcalendar/interaction";
+import { Link, useNavigate } from 'react-router-dom'
+import { redirect } from "react-router-dom";
 
 
-const Calendario = () => {
+const Calendario = ({ tipo, acciones, titulo }) => {
 
+    const navigate = useNavigate();
     const [data, setData] = useState([])
     const [cargando, setCargando] = useState(false)
 
@@ -55,19 +58,22 @@ const Calendario = () => {
         <>
             <FullCalendar
                 plugins={[dayGridPlugin, interactionPlugin, listPlugin]}
-                initialView="dayGridMonth"
+                initialView={tipo}
                 locale={esLocale}
                 events={listaEventos}
                 height="auto"
                 loading={isLoading}
                 headerToolbar={{
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,dayGridWeek,dayGridDay,listWeek'
+                    left: acciones ? 'prev,next today' : "",
+                    center: titulo ? 'title' : "",
+                    right: acciones ? 'dayGridMonth,dayGridWeek' : ""
                 }}
                 eventClick={(info) => {
                     /*  info.event.extendedProps.evento */
-                    Swal.fire({
+                    console.log(info.event.extendedProps.evento)
+                    navigate(`/evento/${info.event.extendedProps.evento.id}`)
+
+                    /* Swal.fire({
                         title: info.event.title,
                         html: `
                         <b>Fecha:</b> 
@@ -83,7 +89,7 @@ const Calendario = () => {
                         ${info.event.extendedProps.evento.tipo_evento} <br>
                         
                         `
-                    })
+                    }) */
                 }}
 
             />
