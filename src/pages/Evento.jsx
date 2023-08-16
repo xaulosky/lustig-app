@@ -81,7 +81,7 @@ const Evento = () => {
                     <Tab>General</Tab>
                     <Tab>Mesas</Tab>
                     <Tab>Invitados</Tab>
-                    <Tab>Presupuesto</Tab>
+                    <Tab>Gastos</Tab>
                     <Tab>Inventario</Tab>
                     <Tab>Personal</Tab>
                 </TabList>
@@ -176,7 +176,7 @@ const Evento = () => {
                         <ListaInvitados evento={id} />
                     </TabPanel>
                     <TabPanel>
-                        <p>Presupuesto</p>
+                        <p>Gastos</p>
                     </TabPanel>
                     <TabPanel>
                         <InventarioEvento evento={id} />

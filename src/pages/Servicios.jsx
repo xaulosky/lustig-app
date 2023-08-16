@@ -11,6 +11,7 @@ import apiServicios from "../api/apiServicios"
 import AgregarServicio from "../componets/dashboard/servicios/AgregarServicio"
 import { AiFillDelete } from "react-icons/ai"
 import Swal from "sweetalert2"
+import EditarServicio from "../componets/servicios/EditarServicio"
 
 const Servicios = () => {
 
@@ -67,50 +68,16 @@ const Servicios = () => {
             {
                 name: "Descripcion",
                 selector: "descripcion",
-                cell: (row) => {
-                    return (
-
-                        <Editable onChange={(value) => {
-                            console.log(value)
-                        }} onSubmit={(value, previousValue) => {
-                            console.log(previousValue)
-                            if (value.length > 0) {
-                                apiServicios.updateServicio({
-                                    ...row,
-                                    descripcion: value
-                                }).then((res) => {
-                                    getData()
-                                    notificaciones.success("Descripción actualizada")
-                                }).catch((err) => {
-                                    getData()
-                                    notificaciones.error(err)
-                                })
-                            }
-                            else {
-                                notificaciones.error("La descripción no puede estar vacía")
-                            }
-                        }}
-                            defaultValue={
-                                row.descripcion === null ? "Sin descripción" : row.descripcion
-                            } style={{
-                                minWidth: "200px",
-                                maxWidth: "300px",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                whiteSpace: "nowrap"
-                            }}>
-                            <EditablePreview />
-                            <EditableInput />
-                        </Editable>
-                    )
-                }
             },
             {
                 name: "Acciones",
                 right: true,
                 cell: (row) => {
                     return (
-                        <AiFillDelete onClick={() => onClickEliminarServicio(row.id)} className="cursor-pointer text-lg" />
+                        <>
+                            <EditarServicio actualizar={getData} row={row} />
+                            <AiFillDelete onClick={() => onClickEliminarServicio(row.id)} className="cursor-pointer text-lg" />
+                        </>
                     )
                 }
             },
