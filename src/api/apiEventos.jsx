@@ -37,6 +37,32 @@ export default {
   },
   editarCronograma: (id, cronograma) => {
     return instance.put("/eventos/cronograma", { id, cronograma });
+  },
+
+  getGastos: (evento) => {
+    return instance.get("/eventos/gastos", { params: { id_evento: evento } });
+  },
+  getGastosTotales: (id) => {
+    return instance.get("/eventos/gastos/total", { params: { id_evento: id } });
+  },
+  createGasto: (gasto) => {
+    // 'nombre' => 'required|string|max:255',
+    // 'monto' => 'required|integer',
+    // 'descripcion' => 'nullable|string|max:255',
+    // 'fecha' => 'required|date',
+    // 'id_evento' => 'required|integer|exists:eventos,id'
+    return instance.post("/eventos/gastos", gasto);
+  },
+  updateGasto: (gasto) => {
+    // 'id' => 'required|integer|exists:gastos,id',
+    // 'nombre' => 'required|string|max:255',
+    // 'monto' => 'required|integer',
+    // 'descripcion' => 'nullable|string|max:255',
+    // 'fecha' => 'required|date',
+    return instance.put("/eventos/gastos", gasto);
+  },
+  deleteGasto: (id) => {
+    return instance.delete("/eventos/gastos", { data: { id: id } });
   }
 
 }

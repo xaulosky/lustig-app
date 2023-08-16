@@ -25,4 +25,23 @@ export default {
         // 'nombre' => 'required|string|max:255',
         return instance.put('/servicios', servicio)
     },
+
+    getServiciosEvento: (evento) => {
+        return instance.get('/eventos/servicios', {
+            params: {
+                id_evento: evento
+            }
+        })
+    },
+    createServicioEvento: (servicio) => {
+        // id_evento: 'required|integer|exists:eventos,id',
+        // id_servicio: 'required|integer|exists:servicios,id',
+        return instance.post('/eventos/servicios', servicio)
+    },
+    deleteServicioEvento: (servicio) => {
+        // id_evento: 'required|integer|exists:eventos,id',
+        // id_servicio: 'required|integer|exists:servicios,id',
+        return instance.delete('/eventos/servicios', { data: servicio })
+    }
+
 }

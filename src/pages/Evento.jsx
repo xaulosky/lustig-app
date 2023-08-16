@@ -16,6 +16,7 @@ import ListaInvitados from "../componets/eventos/invitados/ListaInvitados"
 import InventarioEvento from "../componets/eventos/inventario/InventarioEvento"
 import { separadorDeMiles } from "../helpers/separadorDeMiles"
 import EditarEvento from "../componets/eventos/EditarEvento"
+import ListaDeGastos from "../componets/eventos/gastos/ListaDeGastos"
 
 
 const Evento = () => {
@@ -26,7 +27,6 @@ const Evento = () => {
     const [data, setData] = useState([])
     const [lat, setLat] = useState()
     const [lon, setLon] = useState()
-
     const [recargarMapa, setRecargarMapa] = useState(0)
 
     const [modificarDatos, setModificarDatos] = useState(false)
@@ -39,9 +39,7 @@ const Evento = () => {
         setCargando(true)
         apiEventos.getEvento(id).then((res) => {
             setData(res.data)
-            console.log(res.data)
             axios.get(rutaMap + res.data.direccion).then((res) => {
-                console.log(res, cargando);
                 setLat(res.data[0]?.lat)
                 setLon(res.data[0]?.lon)
             })
@@ -81,7 +79,7 @@ const Evento = () => {
                     <Tab>General</Tab>
                     <Tab>Mesas</Tab>
                     <Tab>Invitados</Tab>
-                    <Tab>Presupuesto</Tab>
+                    <Tab>Gastos</Tab>
                     <Tab>Inventario</Tab>
                     <Tab>Personal</Tab>
                 </TabList>
@@ -176,7 +174,7 @@ const Evento = () => {
                         <ListaInvitados evento={id} />
                     </TabPanel>
                     <TabPanel>
-                        <p>Presupuesto</p>
+                        <ListaDeGastos evento={id} />
                     </TabPanel>
                     <TabPanel>
                         <InventarioEvento evento={id} />
