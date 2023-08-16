@@ -2,12 +2,10 @@ import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, 
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { BiSolidEdit } from "react-icons/bi"
-import apiEventos from "../../api/apiEventos"
-import { notificaciones } from "../../helpers/Notificaciones"
-import apiClientes from "../../api/apiClientes"
-import apiServicios from "../../api/apiServicios"
+import apiInventario from "../../../api/apiInventario"
+import { notificaciones } from "../../../helpers/Notificaciones"
 
-const EditarServicio = ({ row, actualizar }) => {
+const EditarObjeto = ({ row, actualizar }) => {
 
     const [isOpen, setIsOpen] = useState(false)
     const onClose = () => { setIsOpen(false) }
@@ -22,17 +20,17 @@ const EditarServicio = ({ row, actualizar }) => {
 
     const editarServicio = (data) => {
         setEnviando(true)
-        apiServicios.updateServicio({
+        apiInventario.updateObjetoInventario({
             ...data,
             id: row.id
         }).then((res) => {
             onClose()
-            notificaciones.success("Servicio editado exitosamente")
+            notificaciones.success("Objeto editado exitosamente")
         }
         ).catch((err) => {
             console.log(err);
             onClose()
-            notificaciones.error("Error al editar servicio")
+            notificaciones.error("Error al editar objeto")
         }
         ).finally(() => {
             setEnviando(false)
@@ -50,7 +48,7 @@ const EditarServicio = ({ row, actualizar }) => {
             <Modal isOpen={isOpen}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Editar Servicio</ModalHeader>
+                    <ModalHeader>Editar Cliente </ModalHeader>
                     <ModalCloseButton onClick={onClose} />
                     <ModalBody>
                         <form id="formulario_editar_servicio" onSubmit={handleSubmit(editarServicio)}>
@@ -76,27 +74,7 @@ const EditarServicio = ({ row, actualizar }) => {
                                         }
                                     />
                                 </div>
-                                <div>
-                                    <label
-                                        htmlFor="descripcion"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                    >
-                                        Descripcion
-                                    </label>
-                                    <input
-                                        defaultValue={row.descripcion}
-                                        type="text"
-                                        name="descripcion"
-                                        id="descripcion"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="descripcion"
-                                        {
-                                        ...register("descripcion", {
-                                            required: true,
-                                        })
-                                        }
-                                    />
-                                </div>
+
                             </div>
                         </form>
                     </ModalBody>
@@ -112,4 +90,4 @@ const EditarServicio = ({ row, actualizar }) => {
     )
 }
 
-export default EditarServicio
+export default EditarObjeto

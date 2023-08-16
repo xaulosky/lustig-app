@@ -7,6 +7,8 @@ import { notificaciones } from "../helpers/Notificaciones"
 import { AiFillDelete } from "react-icons/ai"
 import AgregarObjetoInventario from "../componets/inventario/acciones/AgregarObjeto"
 import AgregarObjeto from "../componets/inventario/acciones/AgregarObjeto"
+import EliminarObjeto from "../componets/inventario/acciones/EliminarObjeto"
+import EditarObjeto from "../componets/inventario/acciones/EditarObjeto"
 const Inventario = () => {
 
   const [data, setData] = useState([])
@@ -59,7 +61,10 @@ const Inventario = () => {
       },
       {
         name: "Acciones",
-        selector: row => <EliminarObjeto id={row.id} actualizar={getData} />,
+        selector: row => <Flex>
+          <EditarObjeto row={row} actualizar={getData} />
+          <EliminarObjeto id={row.id} actualizar={getData} />
+        </Flex>,
         right: true,
       },
       {
@@ -81,7 +86,6 @@ const Inventario = () => {
           base: 6,
           md: 6,
           lg: 2,
-
         }
       }>
         <Heading size="sm" className="p-1" >Agregar Objeto</Heading>
