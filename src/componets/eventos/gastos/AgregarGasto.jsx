@@ -16,7 +16,7 @@ const AgregarGasto = ({ evento, actualizar }) => {
     const onCloseEvento = () => setIsOpen(false)
     const onClickEvento = () => setIsOpen(true)
 
-    const { gastos, createGasto, actualizando } = useGastos(evento, actualizar)
+    const { createGasto, actualizando } = useGastos(null, actualizar)
 
     const {
         register,

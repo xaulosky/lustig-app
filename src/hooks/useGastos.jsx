@@ -24,40 +24,40 @@ const useGastos = (evento, actualizar) => {
         apiEventos.createGasto(gasto)
             .then((res) => {
                 notificaciones.success('Gasto añadido')
-                getGastos()
+                evento && getGastos()
                 actualizar && actualizar()
             }).catch((err) => {
                 notificaciones.error('Error al añadir')
             }).finally(() => {
                 setCargando(false)
             })
-    }, [getGastos, actualizar])
+    }, [getGastos, actualizar, evento])
 
     const updateGasto = useCallback(async (gasto) => {
         apiEventos.updateGasto(gasto)
             .then((res) => {
                 notificaciones.success('Gasto actualizado')
-                getGastos()
+                evento && getGastos()
                 actualizar && actualizar()
             }).catch((err) => {
                 notificaciones.error('Error al actualizar')
             }).finally(() => {
                 setCargando(false)
             })
-    }, [getGastos, actualizar])
+    }, [getGastos, actualizar, evento])
 
     const deleteGasto = useCallback(async (id) => {
         apiEventos.deleteGasto(id)
             .then((res) => {
                 notificaciones.success('Gasto eliminado')
-                getGastos()
+                evento && getGastos()
                 actualizar && actualizar()
             }).catch((err) => {
                 notificaciones.error('Error al eliminar')
             }).finally(() => {
                 setCargando(false)
             })
-    }, [getGastos, actualizar])
+    }, [getGastos, actualizar, evento])
 
     useEffect(() => {
         if (evento) {

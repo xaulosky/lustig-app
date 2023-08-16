@@ -6,10 +6,11 @@ import AgregarGasto from './AgregarGasto'
 import PropTypes from 'prop-types'
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
 import { notificaciones } from '../../../helpers/Notificaciones'
+import EditarGasto from './EditarGasto'
 
 const ListaDeGastos = ({ evento }) => {
 
-    const { gastos, deleteGasto, updateGasto } = useGastos(evento)
+    const { gastos, deleteGasto, updateGasto, getGastos } = useGastos(evento)
 
     const columnas = [
         {
@@ -18,11 +19,11 @@ const ListaDeGastos = ({ evento }) => {
         },
         {
             name: 'Monto',
-            selector: row => row.monto,
+            selector: row => '$' + row.monto?.toLocaleString('de-DE')
         },
         {
             name: 'Fecha',
-            selector: row => row?.fecha,
+            selector: row => `${row?.fecha.split('-')[2].slice(0, 2)}-${row?.fecha.split('-')[1]}-${row?.fecha.split('-')[0]} ${row?.fecha.split(' ')[1]}`,
         },
         {
             name: 'Descripción',
@@ -34,12 +35,7 @@ const ListaDeGastos = ({ evento }) => {
             width: '10rem',
             selector: row => (
                 <ButtonGroup p={3}>
-                    <IconButton isRound colorScheme='blue' icon={<AiFillEdit size={'1.4rem'} />}
-                        onClick={() => {
-                            // setEdicion(row)
-                            // setAgregando(true)
-                        }}
-                    />
+                    <EditarGasto gasto={row} evento={evento} actualizar={getGastos} />
                     <IconButton isRound colorScheme='red' icon={<AiFillDelete size={'1.4rem'} />}
                         onClick={async () => {
                             if (!await notificaciones.confirmacion('¿Quitar de la lista?')) return
@@ -58,7 +54,7 @@ const ListaDeGastos = ({ evento }) => {
             <GridItem colSpan={1}>
                 <Card>
                     <CardBody>
-                        <AgregarGasto evento={evento} />
+                        <AgregarGasto evento={evento} actualizar={getGastos}/>
                     </CardBody>
                 </Card>
             </GridItem>
