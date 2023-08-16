@@ -2,22 +2,23 @@ import Tabla from "../componets/Tabla/Tabla"
 import { Box, Card, CardBody, Flex, Grid, GridItem, Heading, Input } from "@chakra-ui/react"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import apiInventario from "../api/apiInventario"
-import EditarCantidad from "../componets/inventario/acciones/EditarCantidad"
 import InputEditable from "../componets/generales/InputEditable"
 import { notificaciones } from "../helpers/Notificaciones"
 import { AiFillDelete } from "react-icons/ai"
 import AgregarObjetoInventario from "../componets/inventario/acciones/AgregarObjeto"
 import AgregarObjeto from "../componets/inventario/acciones/AgregarObjeto"
-import EliminarObjeto from "../componets/inventario/acciones/EliminarObjeto"
 const Inventario = () => {
 
   const [data, setData] = useState([])
   const [cargando, setCargando] = useState(false)
 
+  const [tipos, setTipos] = useState([])
+
   const getData = useCallback(() => {
     setCargando(true)
     apiInventario.getInventario().then((res) => {
       setData(res.data)
+      console.log(res.data)
     }).catch((err) => {
       console.log(err)
     }).finally(() => {
@@ -25,6 +26,19 @@ const Inventario = () => {
     })
   }, [])
   /* column name, selector */
+
+
+  const obtenerTipos = () => {
+    /* obtener tipos desde data sin repetir */
+    let tipos = []
+    data.forEach((inventario) => {
+      if (!tipos.includes(inventario.tipo)) {
+        tipos.push(inventario.tipo)
+      }
+    })
+    setTipos(tipos)
+  }
+
   const columns = useMemo(() => {
     return [
       {
@@ -37,7 +51,7 @@ const Inventario = () => {
       },
       {
         name: "Categoría",
-        selector: row => row.categoria
+        selector: row => row.tipo
       },
       {
         name: "Descripción",
@@ -73,7 +87,7 @@ const Inventario = () => {
         <Heading size="sm" className="p-1" >Agregar Objeto</Heading>
         <Card>
           <CardBody>
-            <AgregarObjeto actualizar={getData} />
+            <AgregarObjeto actualizar={getData} tipos={tipos} />
           </CardBody>
         </Card>
       </GridItem>
@@ -91,17 +105,17 @@ const Inventario = () => {
             (e) => {
               if (e.target.value.length > 0) {
                 apiInventario.getInventario().then((res) => {
-                   setData(res.data.filter((inventario) => {
-                     return inventario.nombre.toLowerCase().includes(e.target.value.toLowerCase())
-                   }))
-                   if (res.data.length === 0) {
-                     notificaciones.error("No hay servicios")
-                   }
+                  setData(res.data.filter((inventario) => {
+                    return inventario.nombre.toLowerCase().includes(e.target.value.toLowerCase())
+                  }))
+                  if (res.data.length === 0) {
+                    notificaciones.error("No hay servicios")
+                  }
                 }
                 )
               }
             }
-          }  />
+          } />
         </Flex>
         <br />
         <Card>

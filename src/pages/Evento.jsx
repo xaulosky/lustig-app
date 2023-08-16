@@ -174,7 +174,11 @@ const Evento = () => {
                         <ListaInvitados evento={id} />
                     </TabPanel>
                     <TabPanel>
+<<<<<<< HEAD
                         <ListaDeGastos evento={id} />
+=======
+                        <p>Gastos</p>
+>>>>>>> 25897f619289084864ecc19d4affbba3c173e974
                     </TabPanel>
                     <TabPanel>
                         <InventarioEvento evento={id} />

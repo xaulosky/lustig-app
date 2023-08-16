@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import apiInventario from "../../../api/apiInventario"
 import { notificaciones } from "../../../helpers/Notificaciones"
-const AgregarObjeto = ({ actualizar }) => {
+const AgregarObjeto = ({ actualizar, tipos }) => {
     const [enviando, setEnviando] = useState(false)
 
     const {
@@ -103,6 +103,7 @@ const AgregarObjeto = ({ actualizar }) => {
                     </label>
                     <input
                         type="text"
+                        list='tipo'
                         name="tipo"
                         id="tipo"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -113,9 +114,17 @@ const AgregarObjeto = ({ actualizar }) => {
                         })
                         }
                     />
+                    <datalist id="tipo">
+                        {
+                            tipos.map((tipo) => (
+                                <option key={tipo} value={tipo} />
+                            ))
+                        }
+                    </datalist>
+
                 </div>
 
-                <Button mr={3} type="submit" form="formulario_inventario" isLoading={enviando}>
+                <Button w="100%" mr={3} type="submit" form="formulario_inventario" isLoading={enviando}>
                     Crear
                 </Button>
             </div>

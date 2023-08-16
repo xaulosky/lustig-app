@@ -5,12 +5,15 @@ import { useForm } from "react-hook-form"
 import { notificaciones } from "../../helpers/Notificaciones"
 import apiClientes from "../../api/apiClientes"
 import useClientes from "../../hooks/useClientes"
+import { formatRut } from "react-rut-formatter"
 
 const AgregarClienteModal = ({ actualizar }) => {
 
     const [isOpen, setIsOpen] = useState(false)
     const onCloseCliente = () => setIsOpen(false)
     const onClickEvento = () => setIsOpen(true)
+
+    const [rut, setRut] = useState("")
 
     const [enviando, setEnviando] = useState(false)
 
@@ -22,7 +25,10 @@ const AgregarClienteModal = ({ actualizar }) => {
 
     const crearCliente = (data) => {
         setEnviando(true)
-        apiClientes.createCliente(data).then((res) => {
+        apiClientes.createCliente({
+            ...data,
+            rut: rut
+        }).then((res) => {
             console.log(res)
             onCloseCliente()
             reset()
@@ -108,16 +114,20 @@ const AgregarClienteModal = ({ actualizar }) => {
                                         Rut
                                     </label>
                                     <input
+                                        value={rut}
+                                        onChange={(e) => {
+                                            setRut(formatRut(e.target.value, true))
+                                        }}
                                         type="text"
                                         name="rut"
                                         id="rut"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Rut del cliente"
-                                        {
-                                        ...register("rut", {
-                                            required: true,
-                                        })
-                                        }
+                                    /* {
+                                    ...register("rut", {
+                                        required: true,
+                                    })
+                                    } */
                                     />
                                 </div>
                                 <div>
