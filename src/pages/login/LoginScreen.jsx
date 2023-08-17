@@ -3,6 +3,7 @@ import apiClientes from "../../api/apiClientes"
 import apiUsuarios from "../../api/apiUsuarios"
 import { useContext } from "react"
 import AuthContext from "../../context/AuthContext"
+import { notificaciones } from "../../helpers/Notificaciones"
 
 
 const LoginScreen = () => {
@@ -26,6 +27,7 @@ const LoginScreen = () => {
         apiUsuarios.login(data).then(res => {
             console.log(res)
             if (res.status === 200) {
+                notificaciones.success('Bienvenido', "Bienvenido a Lustig Eventos")
                 setAuth({
                     logged: true,
                     token: res.data.token,
@@ -43,12 +45,12 @@ const LoginScreen = () => {
             }
         }).catch(err => {
             console.log(err)
+            notificaciones.error('Error', "Usuario o contraseña incorrectos")
         }
         ).finally(() => {
             reset()
         }
         )
-
     }
 
 
