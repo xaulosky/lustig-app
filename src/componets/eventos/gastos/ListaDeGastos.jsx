@@ -45,16 +45,19 @@ const ListaDeGastos = ({ evento }) => {
                 </ButtonGroup>
             ),
         }
-
     ]
 
     return (
-        <SimpleGrid columns={3} gap={5}>
+        <SimpleGrid columns={{
+            base: 1,
+            md: 3
+
+        }} gap={5}>
 
             <GridItem colSpan={1}>
                 <Card>
                     <CardBody>
-                        <AgregarGasto evento={evento} actualizar={getGastos}/>
+                        <AgregarGasto evento={evento} actualizar={getGastos} />
                     </CardBody>
                 </Card>
             </GridItem>

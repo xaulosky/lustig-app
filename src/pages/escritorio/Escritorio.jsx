@@ -33,14 +33,10 @@ const Escritorio = () => {
                 <Card>
                     <CardBody>
                         <Heading size="md" mb={3}>Eventos de {mesActual} </Heading>
-                        <Calendario tipo="listWeek" />
+                        <Calendario tipo="listMonth" />
                     </CardBody>
                 </Card>
             </GridItem>
-
-
-
-
         </Grid>
     )
 }

@@ -25,6 +25,12 @@ h1 {
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
 }
 
-.fc-event{
+.fc-event {
   cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .chakra-tabs__tablist {
+    overflow-x: scroll;
+  }
 }

@@ -78,18 +78,18 @@ const AgregarEvento = ({ actualizar }) => {
                                 onChange={(e) => {
                                     console.log(e.target.value)
                                 }}
-                            /*  {
+                             {
                                 ...register("id_cliente", {
                                     required: true,
                                 })
-                            } */
+                            }
 
                             />
                             <datalist id="clientes">
                                 {
                                     clientes.map((cliente) => {
                                         return (
-                                            <option key={cliente.id} value={cliente.nombre}>{cliente.nombre} {cliente.apellido} {cliente.rut} </option>
+                                            <option key={cliente.id} value={cliente.id}>{cliente.nombre} {cliente.apellido} {cliente.rut} </option>
                                         )
                                     })
                                 }
@@ -226,7 +226,7 @@ const AgregarEvento = ({ actualizar }) => {
                             <option value="5">Cancelado</option>
                         </select>
                     </div>
-                    <div className="sm:col-span-2">
+                    <div className="col-span-2">
                         <label
                             htmlFor="descripcion"
                             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -239,9 +239,7 @@ const AgregarEvento = ({ actualizar }) => {
                             className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Descripción del evento"
                             {
-                            ...register("descripcion", {
-                                required: true,
-                            })
+                            ...register("descripcion")
                             }
                         />
                     </div>
