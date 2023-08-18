@@ -1,7 +1,7 @@
 import React from 'react'
 import useGastos from '../../../hooks/useGastos'
 import Tabla from '../../Tabla/Tabla'
-import { ButtonGroup, Card, CardBody, GridItem, IconButton, SimpleGrid } from '@chakra-ui/react'
+import { ButtonGroup, Card, CardBody, Flex, GridItem, IconButton, SimpleGrid } from '@chakra-ui/react'
 import AgregarGasto from './AgregarGasto'
 import PropTypes from 'prop-types'
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
@@ -11,6 +11,8 @@ import EditarGasto from './EditarGasto'
 const ListaDeGastos = ({ evento }) => {
 
     const { gastos, deleteGasto, updateGasto, getGastos } = useGastos(evento)
+
+    const gastosTotales = gastos.reduce((acc, gasto) => acc + gasto.monto, 0)
 
     const columnas = [
         {
@@ -58,6 +60,10 @@ const ListaDeGastos = ({ evento }) => {
                 <Card>
                     <CardBody>
                         <AgregarGasto evento={evento} actualizar={getGastos} />
+                        <br />
+                        <Flex justifyContent={"center"} >
+                            <h3>Gastos totales: <b>${gastosTotales.toLocaleString('de-DE')}</b></h3>
+                        </Flex>
                     </CardBody>
                 </Card>
             </GridItem>

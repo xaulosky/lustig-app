@@ -84,9 +84,6 @@ const Eventos = () => {
                                         row.id_tipo_evento === 4 ?
                                             "Empresarial" :
                                             "Otro"
-
-
-
                         }</Badge>
                     )
                 },

@@ -10,7 +10,7 @@ const Layout = () => {
             <div className="antialiased bg-gray-50 dark:bg-gray-900">
                 <Header />
                 <Sidebar />
-                <main className="p-4 md:ml-64 h-auto pt-16  dark:text-white h-screen overflow-auto">
+                <main className="p-4 md:ml-64 h-auto pt-20 md:pt-16  dark:text-white h-screen overflow-auto">
                     <Outlet />
                 </main>
             </div>

@@ -32,6 +32,20 @@ const AgregarGasto = ({ evento, actualizar }) => {
         reset()
     }
 
+    /* fecha actual por defecto */
+    const fechaActual = () => {
+        const fecha = new Date()
+        const dia = fecha.getDate()
+        const mes = fecha.getMonth() + 1
+        const anio = fecha.getFullYear()
+        const hora = fecha.getHours()
+        const minutos = fecha.getMinutes()
+
+        return `${anio}-${mes < 10 ? `0${mes}` : mes}-${dia < 10 ? `0${dia}` : dia}T${hora < 10 ? `0${hora}` : hora}:${minutos < 10 ? `0${minutos}` : minutos}`
+    }
+
+    
+
     return (
         <>
             <form id="form_gastos" onSubmit={handleSubmit(onSubmit)}>
@@ -75,6 +89,7 @@ const AgregarGasto = ({ evento, actualizar }) => {
 
                         <input
                             type="datetime-local"
+                            defaultValue={fechaActual()}
                             name="fecha"
                             id="fecha"
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -96,11 +111,11 @@ const AgregarGasto = ({ evento, actualizar }) => {
                             id="descripcion"
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                             placeholder="Detalles adicionales"
-                            {
+                            /* {
                             ...register("descripcion", {
                                 required: true,
                             })
-                            }
+                            } */
                         />
                     </div>
                 </div>
