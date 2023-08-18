@@ -43,7 +43,7 @@ const AgregarMesa = ({ evento, volver, edicion }) => {
             />
             <Text fontWeight={'bold'} color={'gray.600'} py={2}>Cantidad de personas</Text>
             <Input type="number" {...register("cantidad_personas", { required: true, valueAsNumber: true, })} />
-            <Flex py={5} justify={'center'} gap={3}>
+            <Flex py={5} justify={'left'} gap={3}>
 
                 <Text color={'gray.600'} fontWeight={'bold'} display={'inline'} pt={2}>Tipo :</Text>
                 <Menu>
@@ -69,7 +69,7 @@ const AgregarMesa = ({ evento, volver, edicion }) => {
                 </Menu>
             </Flex>
             <Divider py={1} />
-            <Button mt={4} type={'submit'} colorScheme="green" isDisabled={
+            <Button mt={4} type={'submit'} w="100%" colorScheme="green" isDisabled={
                 errors.nombre
             }
                 isLoading={actualizandoMesas}

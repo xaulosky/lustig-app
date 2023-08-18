@@ -22,15 +22,14 @@ const Header = () => {
                        
                         <SidebarMobile />
                     </button>
-                    <a
-                        href="https://flowbite.com"
+                    <div
                         className="flex items-center justify-between mr-4"
                     >
 
                         <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                            Lustig
+                            Lustig App
                         </span>
-                    </a>
+                    </div>
 
                 </div>
                 <Button onClick={cerrarSesion} className="bg-primary-500 dark:bg-primary-600">

@@ -110,14 +110,14 @@ const LoginScreen = () => {
                                     }
                                 />
                             </div>
-                            <div className="flex items-center justify-between">
+                            {/* <div className="flex items-center justify-between">
                                 <a
                                     href="#"
                                     className="text-blue-600 text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
                                 >
                                     ¿Olvidaste tu contraseña?
                                 </a>
-                            </div>
+                            </div> */}
                             <button
                                 type="submit"
                                 className="w-full bg-blue-600 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"

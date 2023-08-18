@@ -1,61 +1,81 @@
 import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { BiSolidEdit } from "react-icons/bi"
 import apiEventos from "../../api/apiEventos"
 import { notificaciones } from "../../helpers/Notificaciones"
 import apiClientes from "../../api/apiClientes"
+import apiServicios from "../../api/apiServicios"
+import apiPersonal from "../../api/apiPersonal"
 
-const EditarCliente = ({ row, actualizar }) => {
+const EditarPersonal = ({ row, actualizar }) => {
 
     const [isOpen, setIsOpen] = useState(false)
-    const onCloseEditarEvento = () => { setIsOpen(false); reset(); }
-    const onClickEditarEvento = () => setIsOpen(true)
-
+    const onClose = () => { setIsOpen(false); reset(); }
+    const onClick = () => setIsOpen(true)
 
     const [enviando, setEnviando] = useState(false)
+    const [areas, setAreas] = useState([])
+
     const {
         register,
         handleSubmit,
         reset,
     } = useForm()
 
-    const editarCliente = (data) => {
+    const editarPersonal = (data) => {
         setEnviando(true)
-        apiClientes.updateCliente({
+        apiPersonal.updatePersonal({
             ...data,
             id: row.id
         }).then((res) => {
-            onCloseEditarEvento()
-            notificaciones.success("Cliente editado exitosamente")
+            onClose()
+            notificaciones.success("Personal editado exitosamente")
         }
         ).catch((err) => {
             console.log(err);
-            onCloseEditarEvento()
-            notificaciones.error("Error al editar cliente")
+            onClose()
+            notificaciones.error("Error al editar personal")
         }
         ).finally(() => {
             setEnviando(false)
             reset()
             actualizar()
-            onCloseEditarEvento()
+            onClose()
         }
         )
 
     }
 
+    const obtenerAreas = () => {
+        apiPersonal.getAreas().then((res) => {
+            setAreas(res.data)
+        }
+        ).catch((err) => {
+            console.log(err)
+        }
+        )
+    }
+
+    useEffect(() => {
+        obtenerAreas()
+    }, [])
+
     return (
         <>
-            <BiSolidEdit onClick={() => onClickEditarEvento()} className="cursor-pointer text-lg" />
+            <BiSolidEdit onClick={() => onClick()} className="cursor-pointer text-lg" />
             <Modal isOpen={isOpen}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Editar Cliente </ModalHeader>
-                    <ModalCloseButton onClick={onCloseEditarEvento} />
+                    <ModalHeader>Editar Personal</ModalHeader>
+                    <ModalCloseButton onClick={onClose} />
                     <ModalBody>
-                        <form id="formulario_editar_cliente" onSubmit={handleSubmit(editarCliente)}>
-                            <div className="grid gap-4 mb-4 sm:grid-cols-2">
+                        {/* 
+            nombre, apellido, area, telefono, direccion
+        */}
 
+                        <form id="formulario_editar_personal" onSubmit={handleSubmit(editarPersonal)}>
+                            <div className="grid gap-4 mb-4 sm:grid-cols-2">
                                 <div>
                                     <label
                                         htmlFor="nombre"
@@ -90,7 +110,7 @@ const EditarCliente = ({ row, actualizar }) => {
                                         name="apellido"
                                         id="apellido"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Apellido Cliente"
+                                        placeholder="Apellido"
                                         {
                                         ...register("apellido", {
                                             required: true,
@@ -100,31 +120,34 @@ const EditarCliente = ({ row, actualizar }) => {
                                 </div>
                                 <div>
                                     <label
-                                        htmlFor="rut"
+                                        htmlFor="area"
                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                     >
-                                        Rut
+                                        Area
                                     </label>
-                                    <input
-                                        defaultValue={row.rut}
-                                        type="text"
-                                        name="rut"
-                                        id="rut"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Ubicación del evento"
+                                    {/* select area */}
+                                    <select
+                                        id="area"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         {
-                                        ...register("rut", {
-                                            required: true,
-                                        })
+                                        ...register("id_area")
                                         }
-                                    />
+                                    >
+                                        {
+                                            areas.map((area) => {
+                                                return (
+                                                    <option key={area.id} value={area.id}>{area.nombre}</option>
+                                                )
+                                            })
+                                        }
+                                    </select>
                                 </div>
                                 <div>
                                     <label
                                         htmlFor="telefono"
                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                     >
-                                        Teléfono
+                                        Telefono
                                     </label>
                                     <input
                                         defaultValue={row.telefono}
@@ -132,18 +155,20 @@ const EditarCliente = ({ row, actualizar }) => {
                                         name="telefono"
                                         id="telefono"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Ubicación del evento"
-                                        {
-                                        ...register("telefono")
-                                        }
+                                        placeholder="Telefono"
+                                       /*  {
+                                        ...register("telefono", {
+                                            required: true,
+                                        })
+                                        } */
                                     />
                                 </div>
-                                <div className="col-span-2">
+                                <div  className="col-span-2">
                                     <label
                                         htmlFor="direccion"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white "
+                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                     >
-                                        Dirección
+                                        Direccion
                                     </label>
                                     <input
                                         defaultValue={row.direccion}
@@ -151,29 +176,27 @@ const EditarCliente = ({ row, actualizar }) => {
                                         name="direccion"
                                         id="direccion"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Dirección del cliente"
-                                        {
-                                        ...register("direccion")
-                                        }
+                                        placeholder="Direccion"
+                                        /* {
+                                        ...register("direccion", {
+                                            required: true,
+                                        })
+                                        } */
                                     />
                                 </div>
-
                             </div>
-
                         </form>
-
                     </ModalBody>
-
                     <ModalFooter>
-                        <Button isLoading={enviando} colorScheme='blue' mr={3} type="submit" form="formulario_editar_cliente" isLoading={enviando}>
-                            Editar Evento
+                        <Button isLoading={enviando} colorScheme='blue' mr={3} type="submit" form="formulario_editar_personal" isLoading={enviando}>
+                            Editar Personal
                         </Button>
-                        <Button variant='ghost' onClick={onCloseEditarEvento}>Cancelar</Button>
+                        <Button variant='ghost' onClick={onClose}>Cancelar</Button>
                     </ModalFooter>
                 </ModalContent>
-            </Modal>
+            </Modal >
         </>
     )
 }
 
-export default EditarCliente
+export default EditarPersonal

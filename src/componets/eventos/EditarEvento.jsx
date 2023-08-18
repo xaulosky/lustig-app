@@ -8,7 +8,7 @@ import { notificaciones } from "../../helpers/Notificaciones"
 const EditarEvento = ({ row, actualizar }) => {
 
     const [isOpen, setIsOpen] = useState(false)
-    const onCloseEditarEvento = () => { setIsOpen(false) }
+    const onCloseEditarEvento = () => { setIsOpen(false); reset(); }
     const onClickEditarEvento = () => setIsOpen(true)
 
 
@@ -16,6 +16,7 @@ const EditarEvento = ({ row, actualizar }) => {
     const {
         register,
         handleSubmit,
+        reset,
     } = useForm()
 
     const editarEvento = (data) => {

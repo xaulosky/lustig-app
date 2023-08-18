@@ -17,6 +17,6 @@ export default {
   },
   login: (usuario) => {
     return instance.post("/login", usuario);
-  }
+  },
 
 };

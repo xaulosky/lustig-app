@@ -19,10 +19,10 @@ const MesaResumen = ({ mesa, actualizar, onClick, seleccionada, seleccionable = 
             <CardBody pt={3}>
                 <Image pb={1} borderRadius={'6px'} src={
                     mesa.largo && !mesa.ancho ?
-                        'https://w7.pngwing.com/pngs/538/436/png-transparent-computer-icons-circle-circle-black-desktop-wallpaper-auto-part.png'
+                        '../src/assets/img/circulo.png'
                         : mesa.largo == mesa.ancho ?
-                            'https://assets.stickpng.com/images/58afdac9829958a978a4a691.png'
-                            : 'https://e7.pngegg.com/pngimages/68/356/png-clipart-laptop-rectangle-drawing-computer-geometry-rectangulo-angle-text-thumbnail.png'
+                            '../src/assets/img/cuadrado.png'
+                            : '../src/assets/img/rectangulo.png'
                 }
                     aspectRatio={'1/1'} objectFit={'cover'} w={'80%'} h={'auto'} m={'0 auto'} alt={'imagen'} />
                 <Text fontWeight={'bold'} color={'gray.600'}>{mesa.nombre}</Text>

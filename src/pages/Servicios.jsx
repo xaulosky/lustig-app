@@ -8,7 +8,7 @@ import { BiDownArrow } from "react-icons/bi"
 import { Tooltip } from '@chakra-ui/react'
 import { get, set } from "react-hook-form"
 import apiServicios from "../api/apiServicios"
-import AgregarServicio from "../componets/dashboard/servicios/AgregarServicio"
+import AgregarServicio from "../componets/servicios/AgregarServicio"
 import { AiFillDelete } from "react-icons/ai"
 import Swal from "sweetalert2"
 import EditarServicio from "../componets/servicios/EditarServicio"
@@ -134,13 +134,13 @@ const Servicios = () => {
                                 apiServicios.getServicios().then((res) => {
                                     setData(res.data.filter((servicio) => {
                                         return servicio.nombre.toLowerCase().includes(e.target.value.toLowerCase())
-                                            || servicio.descripcion.toLowerCase().includes(e.target.value.toLowerCase())
                                     }))
                                     if (res.data.length === 0) {
                                         notificaciones.error("No hay servicios")
                                     }
-                                }
-                                )
+                                }).finally(() => {
+                                    setCargando(false)
+                                })
                             }
                         }
                     } />

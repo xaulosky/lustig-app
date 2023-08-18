@@ -4,8 +4,8 @@ import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, 
 import { useState } from "react"
 import { GrFormAdd } from 'react-icons/gr'
 import { useForm } from "react-hook-form"
-import { notificaciones } from "../../../helpers/Notificaciones"
-import apiServicios from "../../../api/apiServicios"
+import { notificaciones } from "../../helpers/Notificaciones"
+import apiServicios from "../../api/apiServicios"
 
 
 const AgregarServicio = ({ actualizar }) => {

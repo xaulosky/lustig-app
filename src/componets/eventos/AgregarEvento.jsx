@@ -78,11 +78,11 @@ const AgregarEvento = ({ actualizar }) => {
                                 onChange={(e) => {
                                     console.log(e.target.value)
                                 }}
-                             {
+                                {
                                 ...register("id_cliente", {
                                     required: true,
                                 })
-                            }
+                                }
 
                             />
                             <datalist id="clientes">

@@ -10,7 +10,7 @@ import apiServicios from "../../api/apiServicios"
 const EditarServicio = ({ row, actualizar }) => {
 
     const [isOpen, setIsOpen] = useState(false)
-    const onClose = () => { setIsOpen(false) }
+    const onClose = () => { setIsOpen(false); reset(); }
     const onClick = () => setIsOpen(true)
 
     const [enviando, setEnviando] = useState(false)
@@ -55,7 +55,7 @@ const EditarServicio = ({ row, actualizar }) => {
                     <ModalBody>
                         <form id="formulario_editar_servicio" onSubmit={handleSubmit(editarServicio)}>
                             <div className="grid gap-4 mb-4 sm:grid-cols-2">
-                                <div>
+                                <div className="col-span-2">
                                     <label
                                         htmlFor="nombre"
                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -76,20 +76,20 @@ const EditarServicio = ({ row, actualizar }) => {
                                         }
                                     />
                                 </div>
-                                <div>
+                                <div className="col-span-2">
                                     <label
                                         htmlFor="descripcion"
                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                     >
-                                        Descripcion
+                                        Descripción
                                     </label>
-                                    <input
+                                    <textarea
                                         defaultValue={row.descripcion}
-                                        type="text"
+                                        type="area"
                                         name="descripcion"
                                         id="descripcion"
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="descripcion"
+                                        className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                        placeholder="Descripción del servicio"
                                         {
                                         ...register("descripcion", {
                                             required: true,

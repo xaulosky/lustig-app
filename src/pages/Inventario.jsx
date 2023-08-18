@@ -13,23 +13,20 @@ const Inventario = () => {
 
   const [data, setData] = useState([])
   const [cargando, setCargando] = useState(false)
-
   const [tipos, setTipos] = useState([])
 
   const getData = useCallback(() => {
     setCargando(true)
     apiInventario.getInventario().then((res) => {
       setData(res.data)
-      console.log(res.data)
     }).catch((err) => {
       console.log(err)
     }).finally(() => {
       setCargando(false)
     })
   }, [])
+
   /* column name, selector */
-
-
   const obtenerTipos = () => {
     /* obtener tipos desde data sin repetir */
     let tipos = []
@@ -45,7 +42,9 @@ const Inventario = () => {
     return [
       {
         name: "Nombre",
-        selector: row => row.nombre
+        selector: row => row.nombre,
+        width: '200px',
+        sortable: true,
       },
       {
         name: "Cantidad",
@@ -62,7 +61,7 @@ const Inventario = () => {
       {
         name: "Acciones",
         selector: row => <Flex>
-          <EditarObjeto row={row} actualizar={getData} />
+          <EditarObjeto row={row} actualizar={getData} tipos={tipos} />
           <EliminarObjeto id={row.id} actualizar={getData} />
         </Flex>,
         right: true,
@@ -77,6 +76,10 @@ const Inventario = () => {
     setCargando(true)
     getData()
   }, [getData])
+
+  useEffect(() => {
+    obtenerTipos()
+  }, [data])
 
   return (
 
@@ -102,21 +105,29 @@ const Inventario = () => {
           md: 6,
           lg: 4,
         }
-      }>
+      }
+        style={
+          {
+            gap: "1px"
+          }
+        }
+      >
         <Flex justifyContent="space-between" alignItems="center">
           <Heading>Inventario</Heading>
           <Input w="50%" placeholder="Buscar" onChange={
             (e) => {
               if (e.target.value.length > 0) {
                 apiInventario.getInventario().then((res) => {
-                  setData(res.data.filter((inventario) => {
-                    return inventario.nombre.toLowerCase().includes(e.target.value.toLowerCase())
+                  setData(res.data.filter((objeto) => {
+                    return objeto.nombre.toLowerCase().includes(e.target.value.toLowerCase())
+                      || objeto.tipo.toLowerCase().includes(e.target.value.toLowerCase())
                   }))
                   if (res.data.length === 0) {
-                    notificaciones.error("No hay servicios")
+                    notificaciones.error("No hay eventos")
                   }
-                }
-                )
+                }).finally(() => {
+                  setCargando(false)
+                })
               }
             }
           } />

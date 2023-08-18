@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import apiInventario from "../../../api/apiInventario"
 import { notificaciones } from "../../../helpers/Notificaciones"
 const AgregarObjeto = ({ actualizar, tipos }) => {
+
     const [enviando, setEnviando] = useState(false)
 
     const {
@@ -20,7 +21,7 @@ const AgregarObjeto = ({ actualizar, tipos }) => {
                 console.log(res)
                 reset()
                 actualizar()
-                notificaciones.success("Agregado creado exitosamente")
+                notificaciones.success("Objeto creado exitosamente")
             }
             ).catch((err) => {
                 console.log(err)
@@ -102,8 +103,7 @@ const AgregarObjeto = ({ actualizar, tipos }) => {
                         Categoría
                     </label>
                     <input
-                        type="text"
-                        list='tipo'
+                        list="tipos"
                         name="tipo"
                         id="tipo"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -114,21 +114,17 @@ const AgregarObjeto = ({ actualizar, tipos }) => {
                         })
                         }
                     />
-                    <datalist id="tipo">
-                        {
-                            tipos.map((tipo) => (
-                                <option key={tipo} value={tipo} />
-                            ))
-                        }
+                    <datalist id="tipos">
+                        {tipos.map((tipo) => (
+                            <option key={tipo} value={tipo}  > {tipo} </option>
+                        ))}
                     </datalist>
 
                 </div>
-
                 <Button w="100%" mr={3} type="submit" form="formulario_inventario" isLoading={enviando}>
                     Crear
                 </Button>
             </div>
-
         </form>
     )
 }
