@@ -8,6 +8,7 @@ import Personal from '../pages/Personal'
 import Inventario from '../pages/Inventario'
 import Evento from '../pages/Evento'
 import Servicios from '../pages/Servicios'
+import Usuarios from '../pages/Usuarios'
 
 
 const DashboardRoutes = () => {
@@ -21,10 +22,7 @@ const DashboardRoutes = () => {
                 <Route path="/personal" element={<Personal />} />
                 <Route path="/inventario" element={<Inventario />} />
                 <Route path="/servicios" element={<Servicios />} />
-
-
-
-
+                <Route path="/usuarios" element={<Usuarios />} />
                 <Route path="*" element={<h1>Pagina no encontrada</h1>} />
             </Route>
         </Routes>

@@ -158,6 +158,7 @@ const Eventos = () => {
         setCargando(true)
         apiEventos.getEventos().then((res) => {
             setData(res.data)
+            console.log(res.data)
             if (res.data.length === 0) {
                 notificaciones.error("No hay eventos")
             }

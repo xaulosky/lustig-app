@@ -119,8 +119,8 @@ const Inventario = () => {
               if (e.target.value.length > 0) {
                 apiInventario.getInventario().then((res) => {
                   setData(res.data.filter((objeto) => {
-                    return objeto.nombre.toLowerCase().includes(e.target.value.toLowerCase())
-                      || objeto.tipo.toLowerCase().includes(e.target.value.toLowerCase())
+                    return objeto.nombre?.toLowerCase().includes(e.target.value.toLowerCase())
+                      || objeto.tipo?.toLowerCase().includes(e.target.value.toLowerCase())
                   }))
                   if (res.data.length === 0) {
                     notificaciones.error("No hay eventos")

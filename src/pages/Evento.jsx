@@ -17,9 +17,17 @@ import InventarioEvento from "../componets/eventos/inventario/InventarioEvento"
 import { separadorDeMiles } from "../helpers/separadorDeMiles"
 import EditarEvento from "../componets/eventos/EditarEvento"
 import ListaDeGastos from "../componets/eventos/gastos/ListaDeGastos"
+import useGastos from "../hooks/useGastos"
+import useAuth from "../hooks/useAuth"
+import PersonalEvento from "../componets/eventos/personalEvento/PersonalEvento"
 
 
 const Evento = () => {
+
+    const { auth } = useAuth()
+
+    const { tipo_usuario } = auth
+
     /* get id from url */
     const [editarCronograma, setEditarCronograma] = useState(false)
     const { id } = useParams()
@@ -30,6 +38,11 @@ const Evento = () => {
     const [recargarMapa, setRecargarMapa] = useState(0)
 
     const [modificarDatos, setModificarDatos] = useState(false)
+
+
+    const { gastos, deleteGasto, updateGasto, getGastos } = useGastos(id)
+
+    const gastosTotales = gastos.reduce((acc, gasto) => acc + gasto.monto, 0)
 
     const [cronograma, setCronograma] = useState('')
 
@@ -66,6 +79,7 @@ const Evento = () => {
     }, [id])
 
 
+
     useEffect(() => {
         getData()
     }, [getData])
@@ -79,7 +93,11 @@ const Evento = () => {
                     <Tab>General</Tab>
                     <Tab>Mesas</Tab>
                     <Tab>Invitados</Tab>
-                    <Tab>Gastos</Tab>
+                    {
+                        tipo_usuario === 'Administrador' ?
+                            <Tab>Gastos</Tab>
+                            : null
+                    }
                     <Tab>Inventario</Tab>
                     <Tab>Personal</Tab>
                 </TabList>
@@ -108,8 +126,17 @@ const Evento = () => {
                                             <br />
                                             <b>Rut:</b> {/* format rut */} {data.cliente_rut}
                                             <br />
-                                            <b>Presupuesto:</b> ${separadorDeMiles(data.presupuesto)}
-                                            <br />
+
+                                            {
+                                                tipo_usuario === 'Administrador' ?
+                                                    <>
+                                                        <b>Presupuesto:</b> ${separadorDeMiles(data.presupuesto)}
+                                                        <br />
+                                                        <b>Gastos:  </b> ${separadorDeMiles(gastosTotales)}
+                                                        <br />
+                                                    </> : null
+                                            }
+
                                             <b>Descripción:</b> {data.descripcion}
                                             <br />
                                             <b>Tipo:</b> {data.tipo_evento}
@@ -173,14 +200,18 @@ const Evento = () => {
                     <TabPanel>
                         <ListaInvitados evento={id} />
                     </TabPanel>
-                    <TabPanel>
-                        <ListaDeGastos evento={id} />
-                    </TabPanel>
+                    {
+                        tipo_usuario === 'Administrador' ?
+                            <TabPanel>
+                                <ListaDeGastos evento={id} />
+                            </TabPanel>
+                            : null
+                    }
                     <TabPanel>
                         <InventarioEvento evento={id} />
                     </TabPanel>
                     <TabPanel>
-                        <p>Personal</p>
+                        <PersonalEvento evento={id} />
                     </TabPanel>
                 </TabPanels>
             </Tabs>

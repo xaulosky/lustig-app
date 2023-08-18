@@ -12,7 +12,7 @@ const AgregarMesa = ({ evento, volver, edicion }) => {
         defaultValues: edicion ? edicion : {}
     })
 
-    const [tipoMesa, setTipoMesa] = useState(1)
+    const [tipoMesa, setTipoMesa] = useState(3)
 
     const onSubmit = (data) => {
         console.log(data)
@@ -45,10 +45,10 @@ const AgregarMesa = ({ evento, volver, edicion }) => {
             <Input type="number" {...register("cantidad_personas", { required: true, valueAsNumber: true, })} />
             <Flex py={5} justify={'left'} gap={3}>
 
-                <Text color={'gray.600'} fontWeight={'bold'} display={'inline'} pt={2}>Tipo :</Text>
+                <Text color={'gray.600'} fontWeight={'bold'} display={'inline'} pt={2}>Tipo:</Text>
                 <Menu>
-                    <MenuButton as={Button} colorScheme='blue' display={'inline'} >
-                        <Heading size={'md'}>{
+                    <MenuButton as={Button} w="100%" colorScheme='blue' display={'inline'} >
+                        <Heading size={'sm'}>{
                             tipoMesa == 1 ? 'Redonda'
                                 : tipoMesa == 2 ? 'Cuadrada'
                                     : 'Rectangular'

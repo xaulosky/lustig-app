@@ -1,9 +1,10 @@
 
 import { AiFillHome } from 'react-icons/ai'
-import { BiClipboard, BiSolidUser } from 'react-icons/bi'
+import { BiClipboard, BiSolidUser, BiUser } from 'react-icons/bi'
 import { BsCalendar2EventFill, BsFillPeopleFill } from 'react-icons/bs'
 import { MdHomeRepairService } from 'react-icons/md'
 import { NavLink } from 'react-router-dom'
+import useAuth from '../../../hooks/useAuth'
 
 const Enlaces = () => {
 
@@ -43,30 +44,39 @@ const Enlaces = () => {
             ruta: '/servicios',
             nombre: 'Servicios',
             icono: <MdHomeRepairService />
+        },
+        {
+            id: 7,
+            ruta: '/usuarios',
+            nombre: 'Usuarios',
+            icono: <BiUser />
         }
     ]
 
+    const { auth } = useAuth()
 
+    const { tipo_usuario } = auth
 
     return (
         <>
             {
                 enlaces.map((enlace, index) => (
-                    <li key={index}>
-                        <NavLink
-                            to={enlace.ruta}
-                            className={
-                                ({ isActive, isPending }) =>
-                                    isPending ?
-                                        "pending flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" :
-                                        isActive ? "active flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" :
-                                            "flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                            }
-                        >
-                            {enlace.icono}
-                            <span className="ml-3"> {enlace.nombre} </span>
-                        </NavLink>
-                    </li >
+                    tipo_usuario != "Administrador" && enlace.id === 7 ? null
+                        : <li key={index}>
+                            <NavLink
+                                to={enlace.ruta}
+                                className={
+                                    ({ isActive, isPending }) =>
+                                        isPending ?
+                                            "pending flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" :
+                                            isActive ? "active flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" :
+                                                "flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                }
+                            >
+                                {enlace.icono}
+                                <span className="ml-3"> {enlace.nombre} </span>
+                            </NavLink>
+                        </li >
                 ))
             }
 
