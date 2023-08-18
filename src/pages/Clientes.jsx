@@ -46,8 +46,22 @@ const Clientes = () => {
 
             },
             {
-                name: "Direccion",
-                selector: "direccion"
+                name: "Email",
+                selector: "direccion",
+                wrap: true,
+                cell: (row) => {
+                    return (
+                        <Tooltip label={row.direccion} fontSize="md">
+                            <Box className=" cursor-pointer " onClick={() => {
+                                /* copy direccion */
+                                navigator.clipboard.writeText(row.direccion)
+                                notificaciones.success("Email copiado")
+                            }} as="span" whiteSpace="nowrap" overflow="hidden" textOverflow="ellipsis" w="100%">
+                                {row.direccion}
+                            </Box>
+                        </Tooltip>
+                    )
+                }
             },
             {
                 name: "Acciones",
@@ -115,9 +129,11 @@ const Clientes = () => {
                             if (e.target.value.length > 0) {
                                 apiClientes.getClientes().then((res) => {
                                     setData(res.data.filter((cliente) => {
-                                        return cliente.nombre.toLowerCase().includes(e.target.value.toLowerCase())
-                                            || cliente.apellido.toLowerCase().includes(e.target.value.toLowerCase())
+                                        return cliente.nombre?.toLowerCase().includes(e.target.value.toLowerCase())
+                                            || cliente.apellido?.toLowerCase().includes(e.target.value.toLowerCase())
                                             || cliente.rut.toLowerCase().includes(e.target.value.toLowerCase())
+                                            || cliente.telefono?.toLowerCase().includes(e.target.value.toLowerCase())
+                                            || cliente.direccion?.toLowerCase().includes(e.target.value.toLowerCase())
                                     }))
                                     if (res.data.length === 0) {
                                         notificaciones.error("No hay eventos")
